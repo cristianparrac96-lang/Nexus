@@ -29,52 +29,62 @@
         #login-section { height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 2000; position: relative; }
         .login-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--border-glass); border-radius: 30px; padding: 50px; text-align: center; width: 380px; }
         .logo-login { height: 50px !important; max-width: 180px; object-fit: contain; mix-blend-mode: screen; margin-bottom: 20px; }
-        .input-auth { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; outline: none; }
+        .input-auth { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; box-sizing: border-box; outline: none; }
         .btn-auth { width: 100%; padding: 15px; background: var(--gk-gradient); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- CONTENEDOR DEL PORTAL (OCULTO INICIALMENTE) --- */
-        #main-portal { display: none; }
-
-        /* --- BUSCADOR CENTRALIZADO --- */
+        /* --- PORTAL DE BÚSQUEDA Y LOGOS --- */
         #search-portal {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 100%; max-width: 650px;
+            width: 100%; max-width: 700px;
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000; text-align: center;
         }
         
-        /* Cuando se minimiza (después de buscar) */
         #search-portal.minimized {
-            top: 40px; transform: translate(-50%, 0);
-            max-width: 500px;
+            top: 0; transform: translate(-50%, 0);
+            max-width: 100%; width: 100%;
+            background: rgba(2, 6, 23, 0.95);
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-glass);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo-central-container { transition: opacity 0.5s; margin-bottom: 40px; }
-        .logo-portal { height: 60px !important; max-width: 200px; object-fit: contain; mix-blend-mode: screen; margin: 0 15px; }
+        .logo-container { display: flex; align-items: center; gap: 20px; transition: 0.5s; }
+        .logo-portal { height: 60px !important; max-width: 200px; object-fit: contain; mix-blend-mode: screen; }
+        
+        /* Ajuste de logos en modo minimizado */
+        #search-portal.minimized .logo-container { width: auto; margin-bottom: 0; }
+        #search-portal.minimized .logo-portal { height: 35px !important; }
+        #search-portal.minimized #logo-right { order: 3; } /* El logo AF a la derecha */
+        #search-portal.minimized #logo-left { order: 1; }  /* El logo GK a la izquierda */
 
         .search-box { 
             background: rgba(255,255,255,0.05); 
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border-glass); 
-            padding: 15px 30px; 
+            padding: 12px 25px; 
             border-radius: 50px; 
             display: flex; align-items: center; 
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); 
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+            max-width: 500px; margin: 0 auto;
+            transition: 0.5s;
         }
+        #search-portal.minimized .search-box { order: 2; flex: 1; margin: 0 40px; box-shadow: none; }
+        
         .search-box input { background: transparent; border: none; color: white; font-size: 16px; width: 100%; outline: none; padding-left: 15px; }
         .search-box i { color: var(--gk-cyan); }
 
-        /* --- DASHBOARD (SOLO APARECE TRAS BUSCAR) --- */
+        /* --- DASHBOARD --- */
+        #main-portal { display: none; }
         #main-content {
-            display: none; /* Oculto por defecto */
-            max-width: 1450px; margin: 160px auto 50px auto;
+            display: none;
+            max-width: 1450px; margin: 140px auto 50px auto;
             padding: 0 20px;
             grid-template-columns: 1fr 450px; gap: 30px;
-            animation: slideUp 0.8s ease-out;
+            animation: slideUp 0.6s ease-out;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         .glass-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border-glass); padding: 30px; border-radius: 24px; margin-bottom: 25px; }
         .section-title { font-size: 13px; font-weight: 600; color: var(--gk-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(0, 212, 255, 0.1); padding-bottom: 12px; }
@@ -87,25 +97,29 @@
 
         /* --- MÓDULOS COLAPSABLES --- */
         .collapsible-card { background: var(--glass); border: 1px solid var(--border-glass); border-radius: 20px; margin-bottom: 20px; overflow: hidden; }
-        .collapsible-header { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); }
-        .collapsible-header h3 { margin: 0; font-size: 13px; color: var(--gk-cyan); text-transform: uppercase; }
+        .collapsible-header { padding: 18px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); }
+        .collapsible-header h3 { margin: 0; font-size: 12px; color: var(--gk-cyan); text-transform: uppercase; }
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 25px; }
-        .collapsible-card.active .collapsible-content { max-height: 500px; padding: 20px 25px 25px 25px; }
-        .collapsible-card.active .fa-chevron-down { transform: rotate(180deg); color: var(--gk-magenta); }
+        .collapsible-card.active .collapsible-content { max-height: 500px; padding: 20px 25px; }
 
         /* --- TIPIFICACIÓN --- */
-        .tipif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .tile-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 18px; border-radius: 15px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 11px; font-weight: 600; color: #94a3b8; }
+        .tipif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .tile-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; font-size: 11px; color: #94a3b8; transition: 0.3s; }
         .tile-btn.active { background: var(--gk-cyan); color: #020617; box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); border-color: var(--gk-cyan); }
-        #sub-container { display: none; margin-top: 15px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 18px; border: 1px dashed var(--gk-magenta); }
+        #sub-container { display: none; margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px dashed var(--gk-magenta); }
 
-        .timeline { max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .timeline-item { background: rgba(0,0,0,0.4); padding: 18px; border-radius: 18px; border-left: 4px solid var(--gk-magenta); font-size: 12px; }
+        .timeline-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border-left: 4px solid var(--gk-magenta); font-size: 12px; margin-bottom: 10px; }
         
-        .btn-wa { background: #25d366; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
-        .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 6px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); display: inline-block; }
+        /* --- MODAL NEXUS INFORMA --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; }
+        .modal-nexus { background: var(--bg-dark); border: 2px solid var(--gk-magenta); padding: 40px; border-radius: 30px; text-align: center; max-width: 450px; box-shadow: 0 0 50px rgba(255, 0, 127, 0.3); animation: zoomIn 0.3s ease; }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-nexus h2 { color: var(--gk-cyan); font-size: 14px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        .modal-nexus p { font-size: 16px; margin-bottom: 30px; line-height: 1.5; }
+        .btn-modal { background: var(--gk-gradient); color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
 
-        #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--gk-gradient); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: none; }
+        .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
+        .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
     </style>
 </head>
 <body>
@@ -117,20 +131,19 @@
                 <img src="img/Logo_GK.png" class="logo-login">
                 <img src="img/Logo_AF.png" class="logo-login">
             </div>
-            <h2>NEXUS GATEWAY</h2>
+            <h2>NEXUS TERMINAL</h2>
             <input type="text" id="user" class="input-auth" placeholder="Usuario">
             <input type="password" id="pass" class="input-auth" placeholder="Contraseña">
             <button class="btn-auth" onclick="validarLogin()">Acceder</button>
         </div>
     </section>
 
-    <!-- MAIN PORTAL -->
+    <!-- PORTAL PRINCIPAL -->
     <main id="main-portal">
-        <!-- BUSCADOR INDEPENDIENTE -->
         <div id="search-portal">
-            <div class="logo-central-container" id="logo-container">
-                <img src="img/Logo_GK.png" class="logo-portal">
-                <img src="img/Logo_AF.png" class="logo-portal">
+            <div class="logo-container" id="logo-container">
+                <img src="img/Logo_GK.png" class="logo-portal" id="logo-left">
+                <img src="img/Logo_AF.png" class="logo-portal" id="logo-right">
             </div>
             <div class="search-box">
                 <i class="fa-solid fa-satellite-dish fa-beat"></i>
@@ -138,11 +151,11 @@
             </div>
         </div>
 
-        <!-- DASHBOARD (SE ACTIVA SOLO TRAS BÚSQUEDA) -->
+        <!-- DASHBOARD -->
         <div id="main-content">
             <div class="info-column">
                 <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-id-card"></i> Identificación del Titular</div>
+                    <div class="section-title"><i class="fa-solid fa-id-card"></i> Datos del Titular</div>
                     <div class="info-grid">
                         <div class="data-item"><span class="data-label">Nombre Deudor</span><span class="data-value" id="c-nombre">---</span></div>
                         <div class="data-item"><span class="data-label">Identificación</span><span class="data-value" id="c-doc">---</span></div>
@@ -190,22 +203,29 @@
 
             <div class="management-column">
                 <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-list-check"></i> Tipificación</div>
+                    <div class="section-title"><i class="fa-solid fa-list-check"></i> Nueva Tipificación</div>
                     <div class="tipif-grid" id="agrupadores-container"></div>
                     <div id="sub-container"><div class="tipif-grid" id="clases-container"></div></div>
-                    <textarea id="obs-gestion" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:15px; color:white; padding:15px; font-size:12px; margin-top:20px; outline:none;" rows="3" placeholder="Comentarios de gestión..."></textarea>
+                    <textarea id="obs-gestion" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:15px; color:white; padding:15px; font-size:12px; margin-top:20px; outline:none;" rows="3" placeholder="Comentarios de la llamada..."></textarea>
                     <button class="btn-auth" style="margin-top:15px; font-size:12px;" onclick="registrarGestion()">Guardar Gestión</button>
                 </div>
 
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Historial</div>
-                    <div class="timeline" id="c-timeline"></div>
+                    <div id="c-timeline"></div>
                 </div>
             </div>
         </div>
     </main>
 
-    <button id="sim-trigger"><i class="fa-solid fa-calculator fa-xl" style="color:white"></i></button>
+    <!-- VENTANA NEXUS INFORMA -->
+    <div id="nexus-modal" class="modal-overlay">
+        <div class="modal-nexus">
+            <h2 id="modal-title">Nexus Informa:</h2>
+            <p id="modal-text"></p>
+            <button class="btn-modal" onclick="cerrarModal()">Aceptar</button>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -240,11 +260,13 @@
             if(document.getElementById('user').value === "Admin" && document.getElementById('pass').value === "123") {
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('main-portal').style.display = 'block';
-                initTipif();
-            } else { alert("Acceso Denegado"); }
+                renderTipificacion();
+            } else { mostrarNexusInforma("Credenciales denegadas por seguridad."); }
         };
 
-        function initTipif() {
+        window.toggleModule = function(id) { document.getElementById(id).classList.toggle('active'); };
+
+        function renderTipificacion() {
             const cont = document.getElementById('agrupadores-container');
             cont.innerHTML = "";
             Object.keys(ARBOL).forEach(key => {
@@ -285,19 +307,14 @@
 
         window.buscarCliente = function() {
             const doc = document.getElementById('main-search').value;
+            if(!doc) return;
             get(child(ref(db), `clientes/${doc}`)).then((snapshot) => {
                 if(snapshot.exists()) {
-                    // SECUENCIA DE TRANSICIÓN
-                    document.getElementById('logo-container').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('logo-container').style.display = 'none';
-                        document.getElementById('search-portal').classList.add('minimized');
-                        document.getElementById('main-content').style.display = 'grid';
-                        document.getElementById('sim-trigger').style.display = 'flex';
-                    }, 500);
-
+                    document.getElementById('search-portal').classList.add('minimized');
+                    document.getElementById('main-content').style.display = 'grid';
                     const d = snapshot.val();
                     const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
+
                     document.getElementById('c-nombre').innerText = d.nombre;
                     document.getElementById('c-doc').innerText = d.doc;
                     document.getElementById('c-tel').innerText = d.cel1 || "---";
@@ -306,22 +323,48 @@
 
                     const tl = document.getElementById('c-timeline');
                     tl.innerHTML = "";
-                    const gestiones = (d.gestion_historica || "Sin historial").split('|').reverse();
+                    const gestiones = (d.gestion_historica || "Sin historial previo").split('|').reverse();
                     gestiones.forEach(g => {
                         if(g.trim()){
                             const div = document.createElement('div');
                             div.className = 'timeline-item';
-                            div.innerHTML = `<div>${g.trim()}</div>`;
+                            div.innerHTML = `<div class="timeline-date">REGISTRO OPERATIVO</div><div>${g.trim()}</div>`;
                             tl.appendChild(div);
                         }
                     });
-                } else { alert("ID no encontrado."); }
+                } else { 
+                    mostrarNexusInforma("Cliente no encontrado en base de datos."); 
+                }
             });
         };
 
-        window.toggleModule = function(id) { document.getElementById(id).classList.toggle('active'); };
+        window.mostrarNexusInforma = function(texto) {
+            document.getElementById('modal-text').innerText = texto;
+            document.getElementById('nexus-modal').style.display = 'flex';
+        };
+
+        window.cerrarModal = function() {
+            document.getElementById('nexus-modal').style.display = 'none';
+        };
+
+        window.registrarGestion = function() {
+            if(!currentClase) return mostrarNexusInforma("Debe seleccionar una tipificación.");
+            
+            mostrarNexusInforma("Gestión almacenada exitosamente. Volviendo al panel de búsqueda.");
+            
+            // RESETEAR UI SIN RECARGAR
+            setTimeout(() => {
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('search-portal').classList.remove('minimized');
+                document.getElementById('main-search').value = "";
+                document.getElementById('sub-container').style.display = 'none';
+                document.getElementById('obs-gestion').value = "";
+                currentClase = "";
+                currentAgrupador = "";
+            }, 1500);
+        };
+
         window.sendWA = function() { window.open(`https://wa.me/57${document.getElementById('c-tel').innerText}`, '_blank'); };
-        window.registrarGestion = function() { alert("Gestión guardada exitosamente."); location.reload(); }
     </script>
 </body>
 </html>
