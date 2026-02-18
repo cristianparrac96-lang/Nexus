@@ -34,84 +34,45 @@
 
         /* --- PORTAL DE BÚSQUEDA --- */
         #search-portal {
-            position: fixed; 
-            top: 50%; left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 100%; 
-            max-width: 700px;
-            display: flex;
-            flex-direction: column; /* Logos arriba, buscador abajo */
-            align-items: center;
+            width: 100%; max-width: 700px;
+            display: flex; flex-direction: column; align-items: center;
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
         }
         
-        /* MODO MINIMIZADO (Al buscar) */
         #search-portal.minimized {
-            top: 0; transform: translate(-50%, 0);
+            top: 0; left: 0; transform: none;
             max-width: 100%; width: 100%;
             background: rgba(2, 6, 23, 0.95);
             padding: 10px 40px;
             border-bottom: 1px solid var(--border-glass);
-            flex-direction: row; /* Logos a los lados, buscador al centro */
-            justify-content: space-between;
-        }
-
-        .logo-container { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 30px; 
-            margin-bottom: 40px; 
-            transition: 0.5s;
-        }
-        
-        #search-portal.minimized .logo-container { 
-            margin-bottom: 0; 
-            gap: 0; 
-            width: 100%; 
-            justify-content: space-between;
-            position: absolute;
-            left: 0; padding: 0 40px;
+            flex-direction: row; justify-content: space-between;
             box-sizing: border-box;
-            pointer-events: none; /* Para que no tape el input */
         }
 
-        .logo-portal { 
-            height: 65px !important; 
-            max-width: 220px; 
-            object-fit: contain; 
-            mix-blend-mode: screen; /* Elimina fondo blanco */
-            filter: brightness(1.1);
-            transition: 0.5s;
-        }
-        
+        .logo-container { display: flex; align-items: center; gap: 30px; margin-bottom: 40px; transition: 0.5s; }
+        #search-portal.minimized .logo-container { margin-bottom: 0; width: 100%; justify-content: space-between; position: absolute; left: 0; padding: 0 40px; box-sizing: border-box; pointer-events: none; }
+
+        .logo-portal { height: 65px !important; max-width: 220px; object-fit: contain; mix-blend-mode: screen; filter: brightness(1.1); transition: 0.5s; }
         #search-portal.minimized .logo-portal { height: 32px !important; pointer-events: auto; }
 
         .search-box { 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid var(--border-glass); 
-            padding: 12px 25px; 
-            border-radius: 50px; 
-            display: flex; align-items: center; 
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-            z-index: 2;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); 
+            padding: 12px 25px; border-radius: 50px; display: flex; align-items: center; 
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); width: 100%; max-width: 500px;
+            position: relative; z-index: 2;
         }
-        
-        #search-portal.minimized .search-box { box-shadow: none; max-width: 400px; }
+        #search-portal.minimized .search-box { box-shadow: none; max-width: 400px; margin: 0 auto; }
         .search-box input { background: transparent; border: none; color: white; font-size: 16px; width: 100%; outline: none; padding-left: 15px; }
         .search-box i { color: var(--gk-cyan); }
 
         /* --- DASHBOARD --- */
         #main-portal { display: none; }
         #main-content {
-            display: none;
-            max-width: 1450px; margin: 120px auto 50px auto;
-            padding: 0 20px;
-            grid-template-columns: 1fr 450px; gap: 30px;
+            display: none; max-width: 1450px; margin: 140px auto 50px auto;
+            padding: 0 20px; grid-template-columns: 1fr 450px; gap: 30px;
             animation: slideUp 0.6s ease-out;
         }
 
@@ -126,7 +87,7 @@
         .data-label { font-size: 11px; color: var(--gk-cyan); text-transform: uppercase; font-weight: 600; }
         .data-value { font-size: 15px; color: white; font-weight: 400; }
 
-        /* --- MÓDULOS COLAPSABLES --- */
+        /* --- COLAPSABLES --- */
         .collapsible-card { background: var(--glass); border: 1px solid var(--border-glass); border-radius: 20px; margin-bottom: 20px; overflow: hidden; }
         .collapsible-header { padding: 18px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); }
         .collapsible-header h3 { margin: 0; font-size: 12px; color: var(--gk-cyan); text-transform: uppercase; }
@@ -149,11 +110,11 @@
 
         .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
         .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
+        #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--gk-gradient); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: none; }
     </style>
 </head>
 <body>
 
-    <!-- LOGIN -->
     <section id="login-section">
         <div class="login-card">
             <div style="display:flex; justify-content:center; gap:15px; margin-bottom:20px;">
@@ -167,7 +128,6 @@
         </div>
     </section>
 
-    <!-- MAIN PORTAL -->
     <main id="main-portal">
         <div id="search-portal">
             <div class="logo-container" id="logo-container">
@@ -191,7 +151,6 @@
                         <div class="data-item"><span class="data-label">Correo</span><span class="data-value" id="c-mail">---</span></div>
                     </div>
                 </div>
-
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-coins"></i> Estado Financiero</div>
                     <div class="info-grid">
@@ -201,11 +160,8 @@
                         <div class="data-item"><span class="data-label">Días en Mora</span><span class="badge-mora" id="c-mora-real">---</span></div>
                     </div>
                 </div>
-
                 <div class="collapsible-card" id="mod-garantias">
-                    <div class="collapsible-header" onclick="toggleModule('mod-garantias')">
-                        <h3>Garantías y Respaldo</h3><i class="fa-solid fa-chevron-down"></i>
-                    </div>
+                    <div class="collapsible-header" onclick="toggleModule('mod-garantias')"><h3>Garantías y Respaldo</h3><i class="fa-solid fa-chevron-down"></i></div>
                     <div class="collapsible-content">
                         <div class="info-grid">
                             <div class="data-item"><span class="data-label">Tipo Garantía</span><span class="data-value" id="c-gar">---</span></div>
@@ -214,11 +170,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="collapsible-card" id="mod-asignacion">
-                    <div class="collapsible-header" onclick="toggleModule('mod-asignacion')">
-                        <h3>Asignación y Trámite</h3><i class="fa-solid fa-chevron-down"></i>
-                    </div>
+                    <div class="collapsible-header" onclick="toggleModule('mod-asignacion')"><h3>Asignación y Trámite</h3><i class="fa-solid fa-chevron-down"></i></div>
                     <div class="collapsible-content">
                         <div class="info-grid">
                             <div class="data-item"><span class="data-label">Entidad Origen</span><span class="data-value" id="c-entidad">---</span></div>
@@ -228,7 +181,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="management-column">
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-list-check"></i> Nueva Tipificación</div>
@@ -237,23 +189,16 @@
                     <textarea id="obs-gestion" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:15px; color:white; padding:15px; font-size:12px; margin-top:20px; outline:none;" rows="3" placeholder="Comentarios de la llamada..."></textarea>
                     <button class="btn-auth" style="margin-top:15px; font-size:12px;" onclick="registrarGestion()">Guardar Gestión</button>
                 </div>
-
-                <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Historial</div>
-                    <div id="c-timeline"></div>
-                </div>
+                <div class="glass-card"><div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Historial</div><div id="c-timeline"></div></div>
             </div>
         </div>
     </main>
 
-    <!-- MODAL NEXUS -->
     <div id="nexus-modal" class="modal-overlay">
-        <div class="modal-nexus">
-            <h2>Nexus Informa:</h2>
-            <p id="modal-text" style="font-size: 18px; margin-bottom: 30px;"></p>
-            <button class="btn-modal" onclick="cerrarModal()">Aceptar</button>
-        </div>
+        <div class="modal-nexus"><h2>Nexus Informa:</h2><p id="modal-text" style="font-size: 18px; margin-bottom: 30px;"></p><button class="btn-modal" onclick="cerrarModal()">Aceptar</button></div>
     </div>
+
+    <button id="sim-trigger"><i class="fa-solid fa-calculator fa-xl" style="color:white"></i></button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -340,6 +285,7 @@
                 if(snapshot.exists()) {
                     document.getElementById('search-portal').classList.add('minimized');
                     document.getElementById('main-content').style.display = 'grid';
+                    document.getElementById('sim-trigger').style.display = 'flex';
                     const d = snapshot.val();
                     const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
 
@@ -371,9 +317,7 @@
             document.getElementById('nexus-modal').style.display = 'flex';
         };
 
-        window.cerrarModal = function() {
-            document.getElementById('nexus-modal').style.display = 'none';
-        };
+        window.cerrarModal = function() { document.getElementById('nexus-modal').style.display = 'none'; };
 
         window.registrarGestion = function() {
             if(!currentClase) return mostrarNexusInforma("Debe seleccionar una tipificación.");
@@ -381,6 +325,7 @@
             setTimeout(() => {
                 document.getElementById('main-content').style.display = 'none';
                 document.getElementById('search-portal').classList.remove('minimized');
+                document.getElementById('sim-trigger').style.display = 'none';
                 document.getElementById('main-search').value = "";
                 document.getElementById('sub-container').style.display = 'none';
                 document.getElementById('obs-gestion').value = "";
