@@ -321,16 +321,32 @@
 
         window.registrarGestion = function() {
             if(!currentClase) return mostrarNexusInforma("Debe seleccionar una tipificación.");
-            mostrarNexusInforma("Gestión almacenada exitosamente. Volviendo al panel de búsqueda.");
+            
+            mostrarNexusInforma("Gestión almacenada exitosamente. Mesa de trabajo lista.");
+            
             setTimeout(() => {
-                document.getElementById('main-content').style.display = 'none';
-                document.getElementById('search-portal').classList.remove('minimized');
-                document.getElementById('sim-trigger').style.display = 'none';
+                // MANTENEMOS EL DASHBOARD ABIERTO pero vaciamos los campos
                 document.getElementById('main-search').value = "";
-                document.getElementById('sub-container').style.display = 'none';
+                document.getElementById('main-search').focus(); // Enfocar buscador para rapidez
+                
+                // Limpiar textos
+                const campos = ['c-nombre', 'c-doc', 'c-tel', 'c-mail', 'c-cap', 'c-imora', 'c-sub', 'c-mora-real', 'c-gar', 'c-pla', 'c-cod', 'c-entidad', 'c-inst', 'c-fra'];
+                campos.forEach(id => {
+                   const el = document.getElementById(id);
+                   if(el) el.innerText = "---";
+                });
+                
+                // Limpiar timeline y observaciones
+                document.getElementById('c-timeline').innerHTML = "";
                 document.getElementById('obs-gestion').value = "";
+                
+                // Resetear el árbol de botones
+                document.getElementById('sub-container').style.display = 'none';
+                document.querySelectorAll('.tile-btn').forEach(b => b.classList.remove('active'));
                 currentClase = "";
                 currentAgrupador = "";
+                
+                cerrarModal();
             }, 1500);
         };
 
