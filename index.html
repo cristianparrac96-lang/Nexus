@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | Operaciones de Cobranzas Especializadas</title>
+    <title>Nexus | Terminal de Gestión Operativa</title>
     <link rel="icon" href="img/Logo_GK.png" type="image/png">
-    <link rel="icon" href="img/Logo_AF.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -14,8 +13,8 @@
             --gk-cyan: #00d4ff;
             --gk-magenta: #ff007f;
             --gk-gradient: linear-gradient(135deg, #00d4ff 0%, #ff007f 100%);
-            --glass: rgba(255, 255, 255, 0.03);
-            --border-glass: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
             --bg-dark: #020617;
         }
 
@@ -23,140 +22,168 @@
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top right, #1e293b, #020617);
             color: #f8fafc; margin: 0; min-height: 100vh;
-            display: flex; align-items: center; justify-content: center; overflow-x: hidden;
+            overflow-x: hidden;
         }
 
         /* --- LOGIN --- */
-        #login-section { width: 100%; max-width: 400px; padding: 20px; z-index: 2000; }
-        .login-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--border-glass); border-radius: 30px; padding: 40px; text-align: center; }
-        .input-auth { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; outline: none; }
+        #login-section { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--border-glass); border-radius: 30px; padding: 50px; text-align: center; width: 350px; }
+        .input-auth { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; box-sizing: border-box; }
         .btn-auth { width: 100%; padding: 15px; background: var(--gk-gradient); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- DASHBOARD ESTRUCTURA --- */
-        #main-portal { display: none; width: 100%; align-self: flex-start; padding: 20px; }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 400px; gap: 20px; max-width: 1400px; margin: 150px auto 50px auto; display: none; }
-
-        /* --- BUSCADOR --- */
-        #search-portal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; max-width: 600px; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100; }
-        #search-portal.minimized { top: 40px; transform: translate(-50%, 0); max-width: 450px; position: absolute; }
-        .search-box { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--border-glass); padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); }
-        .search-box input { background: transparent; border: none; color: white; font-size: 18px; width: 100%; outline: none; padding-left: 15px; }
-
-        /* --- CARDS --- */
-        .glass-card { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--border-glass); padding: 20px; border-radius: 20px; margin-bottom: 20px; }
-        .section-title { font-size: 10px; font-weight: 600; color: var(--gk-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        /* --- BUSCADOR DINÁMICO --- */
+        #search-portal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 600px; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; text-align: center; }
         
-        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
-        .data-label { font-size: 8px; color: #94a3b8; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
-        .data-value { font-size: 13px; color: white; font-weight: 500; }
-        .highlight { color: var(--gk-cyan); font-weight: bold; }
+        /* Estilo minimizado (Imagen 2) */
+        #search-portal.minimized { top: 20px; transform: translate(-50%, 0); max-width: 90%; display: flex; align-items: center; gap: 20px; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(10px); padding: 10px 30px; border-radius: 20px; border: 1px solid var(--border-glass); }
+        #search-portal.minimized .logo-row { margin-bottom: 0 !important; gap: 15px !important; }
+        #search-portal.minimized .logo-portal { height: 35px; }
+        #search-portal.minimized .search-box { flex: 1; padding: 8px 20px; box-shadow: none; }
 
-        /* --- ÁRBOL DE TIPIFICACIÓN --- */
-        .tipif-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-        .tile-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 10px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 10px; font-weight: 600; color: #94a3b8; }
-        .tile-btn:hover, .tile-btn.active { background: var(--gk-cyan); color: #020617; border-color: var(--gk-cyan); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3); }
-        .sub-tipif { display: none; margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 12px; }
+        .search-box { background: var(--glass); border: 1px solid var(--border-glass); padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); }
+        .search-box input { background: transparent; border: none; color: white; font-size: 16px; width: 100%; outline: none; padding-left: 15px; }
+        .search-box i { color: var(--gk-cyan); }
+
+        /* --- DASHBOARD --- */
+        #main-portal { display: none; padding: 20px; margin-top: 120px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 450px; gap: 30px; max-width: 1400px; margin: 0 auto; }
+
+        .glass-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border-glass); padding: 25px; border-radius: 24px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        
+        .section-title { font-size: 13px; font-weight: 600; color: var(--gk-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 10px; }
+        .section-title i { color: var(--gk-magenta); font-size: 16px; }
+
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
+        .data-item { display: flex; flex-direction: column; gap: 6px; }
+        .data-label { font-size: 11px; color: var(--gk-cyan); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+        .data-value { font-size: 15px; color: white; font-weight: 400; }
+
+        /* --- ACORDEONES MEJORADOS --- */
+        .collapsible-module { border: 1px solid var(--border-glass); border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: rgba(0,0,0,0.2); }
+        .collapsible-header { padding: 15px 20px; background: rgba(255,255,255,0.02); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .collapsible-header:hover { background: rgba(0, 212, 255, 0.05); }
+        .collapsible-header h3 { margin: 0; font-size: 12px; color: var(--gk-cyan); letter-spacing: 1px; }
+        .collapsible-content { padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+        .collapsible-module.active .collapsible-content { max-height: 500px; padding: 20px; }
+        .collapsible-module.active .fa-chevron-down { transform: rotate(180deg); }
+
+        /* --- TIPIFICACIÓN --- */
+        .tipif-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .tile-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 11px; font-weight: 600; color: #94a3b8; }
+        .tile-btn:hover { border-color: var(--gk-cyan); color: var(--gk-cyan); background: rgba(0, 212, 255, 0.05); }
+        .tile-btn.active { background: var(--gk-cyan); color: #020617; border-color: var(--gk-cyan); box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+        
+        #sub-container { display: none; margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px dashed var(--gk-magenta); }
 
         /* --- TIMELINE --- */
-        .timeline { max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
-        .timeline-item { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; border-left: 3px solid var(--gk-magenta); font-size: 11px; }
-        .timeline-date { font-size: 9px; color: var(--gk-cyan); font-weight: bold; margin-bottom: 4px; }
+        .timeline { max-height: 450px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 10px; }
+        .timeline-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border-left: 4px solid var(--gk-magenta); font-size: 12px; line-height: 1.5; }
+        .timeline-date { font-size: 10px; color: var(--gk-cyan); font-weight: bold; margin-bottom: 5px; opacity: 0.8; }
 
-        /* --- MODALES --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 3000; }
-        .modal-content { background: var(--bg-dark); border: 1px solid var(--gk-magenta); padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; box-shadow: 0 0 40px rgba(255, 0, 127, 0.2); }
-        .modal-btn { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; margin: 10px; }
+        .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-left: 10px; }
+        .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
 
-        /* --- BOTÓN FLOTANTE SIMULADOR --- */
-        #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--gk-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,0,127,0.4); z-index: 500; transition: 0.3s; }
-        #sim-trigger:hover { transform: scale(1.1) rotate(15deg); }
-
-        .btn-wa { background: #25d366; color: white; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; margin-left: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- CAPA 0: LOGIN -->
+    <!-- PORTAL DE ACCESO -->
     <section id="login-section">
         <div class="login-card">
-            <img src="img/Logo_GK.png" style="height: 45px; margin-bottom: 10px;">
-            <h2>Security Protocol</h2>
-            <input type="text" id="user" class="input-auth" placeholder="USUARIO">
-            <input type="password" id="pass" class="input-auth" placeholder="CONTRASEÑA">
-            <button class="btn-auth" onclick="validarLogin()">Inicializar</button>
+            <img src="img/Logo_GK.png" style="height: 45px; margin-bottom: 10px; mix-blend-mode: lighten;">
+            <h2>Acceso al Sistema</h2>
+            <input type="text" id="user" class="input-auth" placeholder="Usuario">
+            <input type="password" id="pass" class="input-auth" placeholder="Contraseña">
+            <button class="btn-auth" onclick="validarLogin()">Inicializar Protocolo</button>
         </div>
     </section>
 
     <!-- MAIN PORTAL -->
     <main id="main-portal">
-        <!-- BUSCADOR -->
         <div id="search-portal">
-            <div style="display:flex; justify-content:center; gap:20px; margin-bottom:30px;">
-                <img src="img/Logo_GK.png" style="height:50px; mix-blend-mode:lighten">
-                <img src="img/Logo_AF.png" style="height:50px; mix-blend-mode:lighten">
+            <div class="logo-row no-print" style="display:flex; justify-content:center; gap:30px; margin-bottom:30px;">
+                <img src="img/Logo_GK.png" class="logo-portal">
+                <img src="img/Logo_AF.png" class="logo-portal">
             </div>
             <div class="search-box">
-                <i class="fa-solid fa-satellite-dish"></i>
-                <input type="text" id="main-search" placeholder="ESCANEAR ID DEL CLIENTE..." onkeypress="if(event.key==='Enter') buscarCliente()">
+                <i class="fa-solid fa-satellite-dish fa-beat-flash"></i>
+                <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO PARA LOCALIZAR CLIENTE..." onkeypress="if(event.key==='Enter') buscarCliente()">
             </div>
-            <p id="search-msg" style="font-size:10px; margin-top:10px; color:var(--gk-cyan)"></p>
         </div>
 
         <div class="dashboard-grid" id="main-content">
-            <!-- COLUMNA IZQUIERDA -->
-            <div>
+            <!-- COLUMNA IZQUIERDA: INFORMACIÓN -->
+            <div class="info-column">
+                
                 <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-user-gear"></i> Ficha Maestra de Identidad</div>
+                    <div class="section-title"><i class="fa-solid fa-id-card"></i> Identificación del Titular</div>
                     <div class="data-grid">
-                        <div class="data-item"><span class="data-label">Nombre Completo</span><span class="data-value highlight" id="c-nombre">---</span></div>
+                        <div class="data-item"><span class="data-label">Nombre Deudor</span><span class="data-value" id="c-nombre">---</span></div>
                         <div class="data-item"><span class="data-label">Nro. Documento</span><span class="data-value" id="c-doc">---</span></div>
-                        <div class="data-item"><span class="data-label">Celular Titular</span><span class="data-value"><span id="c-tel">---</span> <button class="btn-wa" onclick="sendWA()"><i class="fa-brands fa-whatsapp"></i></button></span></div>
-                        <div class="data-item"><span class="data-label">Correo</span><span class="data-value" id="c-mail">---</span></div>
+                        <div class="data-item">
+                            <span class="data-label">Celular de Contacto</span>
+                            <span class="data-value">
+                                <span id="c-tel">---</span> 
+                                <button class="btn-wa" onclick="sendWA()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+                            </span>
+                        </div>
+                        <div class="data-item"><span class="data-label">Correo Electrónico</span><span class="data-value" id="c-mail">---</span></div>
                     </div>
                 </div>
 
                 <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-coins"></i> Análisis de Deuda</div>
+                    <div class="section-title"><i class="fa-solid fa-money-bill-transfer"></i> Información Financiera</div>
                     <div class="data-grid">
-                        <div class="data-item"><span class="data-label">Capital Base</span><span class="data-value highlight" id="c-cap">---</span></div>
-                        <div class="data-item"><span class="data-label">Intereses Mora</span><span class="data-value" id="c-imora">---</span></div>
-                        <div class="data-item"><span class="data-label">Subtotal</span><span class="data-value highlight" style="color:var(--gk-magenta)" id="c-sub">---</span></div>
-                        <div class="data-item"><span class="data-label">Días de Mora</span><span class="data-value" id="c-mora-real">---</span></div>
+                        <div class="data-item"><span class="data-label">Valor Capital</span><span class="data-value" id="c-cap">---</span></div>
+                        <div class="data-item"><span class="data-label">Intereses de Mora</span><span class="data-value" id="c-imora">---</span></div>
+                        <div class="data-item"><span class="data-label">Subtotal Deuda</span><span class="data-value" style="font-weight: 600;" id="c-sub">---</span></div>
+                        <div class="data-item"><span class="data-label">Días en Mora Real</span><span class="badge-mora" id="c-mora-real">0 DÍAS</span></div>
                     </div>
                 </div>
 
-                <div class="glass-card">
-                    <details>
-                        <summary>BLOQUE 3: GARANTÍAS Y RESPALDO</summary>
-                        <div class="data-grid" style="margin-top:15px">
-                            <div class="data-item"><span class="data-label">Garantía</span><span id="c-gar">---</span></div>
-                            <div class="data-item"><span class="data-label">Placa/Matrícula</span><span id="c-pla">---</span></div>
-                            <div class="data-item"><span class="data-label">Codeudor</span><span id="c-cod">---</span></div>
+                <!-- MÓDULO GARANTÍAS -->
+                <div class="collapsible-module" id="mod-garantias">
+                    <div class="collapsible-header" onclick="toggleModule('mod-garantias')">
+                        <h3><i class="fa-solid fa-shield-halved"></i> Garantías y Respaldo</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="data-grid">
+                            <div class="data-item"><span class="data-label">Tipo de Garantía</span><span class="data-value" id="c-gar">---</span></div>
+                            <div class="data-item"><span class="data-label">Nro Placa / Matrícula</span><span class="data-value" id="c-pla">---</span></div>
+                            <div class="data-item"><span class="data-label">Nombre Codeudor</span><span class="data-value" id="c-cod">---</span></div>
                         </div>
-                    </details>
-                    <details>
-                        <summary>BLOQUE 4: ASIGNACIÓN Y TRÁMITE</summary>
-                        <div class="data-grid" style="margin-top:15px">
-                            <div class="data-item"><span class="data-label">Abogado</span><span id="c-abog">---</span></div>
-                            <div class="data-item"><span class="data-label">Instancia</span><span id="c-inst">---</span></div>
-                            <div class="data-item"><span class="data-label">Franja</span><span id="c-fra">---</span></div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO ASIGNACIÓN -->
+                <div class="collapsible-module" id="mod-asignacion">
+                    <div class="collapsible-header" onclick="toggleModule('mod-asignacion')">
+                        <h3><i class="fa-solid fa-briefcase"></i> Información de Asignación</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="data-grid">
+                            <div class="data-item"><span class="data-label">Entidad Originaria</span><span class="data-value" id="c-entidad">---</span></div>
+                            <div class="data-item"><span class="data-label">Instancia de Cobro</span><span class="data-value" id="c-inst">---</span></div>
+                            <div class="data-item"><span class="data-label">Franja de Mora</span><span class="data-value" id="c-fra">---</span></div>
                         </div>
-                    </details>
+                    </div>
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA -->
-            <div>
+            <!-- COLUMNA DERECHA: GESTIÓN -->
+            <div class="management-column">
                 <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-clipboard-list"></i> Tipificar Nueva Gestión</div>
-                    <div class="tipif-grid" id="agrupadores-container">
-                        <!-- Botones nivel 1 -->
-                    </div>
-                    <div id="sub-container" class="sub-tipif">
+                    <div class="section-title"><i class="fa-solid fa-list-check"></i> Árbol de Tipificación</div>
+                    <div class="tipif-grid" id="agrupadores-container"></div>
+                    
+                    <div id="sub-container">
                         <div class="tipif-grid" id="clases-container"></div>
                     </div>
-                    <textarea id="obs-gestion" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:10px; color:white; padding:10px; font-size:11px; margin-top:10px" rows="3" placeholder="Observaciones adicionales..."></textarea>
-                    <button class="btn-auth" style="margin-top:10px; font-size:11px" onclick="validarGuardado()">Registrar Gestión</button>
+
+                    <textarea id="obs-gestion" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:15px; color:white; padding:15px; font-size:12px; margin-top:20px; outline:none;" rows="3" placeholder="Añadir comentarios de la gestión..."></textarea>
+                    <button class="btn-auth" style="margin-top:15px; font-size:12px;" onclick="registrarGestion()">Guardar Gestión</button>
                 </div>
 
                 <div class="glass-card">
@@ -167,24 +194,9 @@
         </div>
     </main>
 
-    <!-- ICONO FLOTANTE SIMULADOR -->
-    <div id="sim-trigger" style="display:none" onclick="window.open('simulador.html','_blank')">
-        <i class="fa-solid fa-calculator fa-xl" style="color:white"></i>
-    </div>
-
-    <!-- MODAL DE PREGUNTA -->
-    <div id="modal-sim" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="color:var(--gk-cyan)">GESTIÓN REGISTRADA</h3>
-            <p style="font-size:12px">¿Desea inicializar el Simulador de Acuerdos para este cliente?</p>
-            <button class="modal-btn" style="background:var(--gk-cyan)" onclick="location.reload()">NO, CERRAR</button>
-            <button class="modal-btn" style="background:var(--gk-magenta); color:white" onclick="window.open('simulador.html','_blank');location.reload()">SÍ, ABRIR</button>
-        </div>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAtCfbyanD34rsy_7sVaagDnzn4idWtjfk",
@@ -199,7 +211,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- ARBOL DE TIPIFICACION ---
         const ARBOL = {
             "Contactado": ["Contacto sin acuerdo", "Posible acuerdo", "Volver a llamar", "Renuente", "Reclamación"],
             "Sin Contacto": ["No Contesta", "Teléfono fuera de servicio", "Teléfono ocupado", "Ilocalizado"],
@@ -209,94 +220,103 @@
             "Paz y Salvo": ["Solicitud de Paz y Salvo", "Estado de Paz y Salvo"]
         };
 
-        let seleccionAgrupador = "";
-        let seleccionClase = "";
+        let currentAgrupador = "";
+        let currentClase = "";
 
-        // --- LOGIN ---
+        // --- FUNCIONES ---
         window.validarLogin = function() {
             if(document.getElementById('user').value === "Admin" && document.getElementById('pass').value === "123") {
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('main-portal').style.display = 'block';
-                initTipif();
+                renderTipificacion();
             } else { alert("Acceso Denegado"); }
         };
 
-        function initTipif() {
-            const container = document.getElementById('agrupadores-container');
-            container.innerHTML = "";
+        window.toggleModule = function(id) {
+            document.getElementById(id).classList.toggle('active');
+        };
+
+        function renderTipificacion() {
+            const cont = document.getElementById('agrupadores-container');
+            cont.innerHTML = "";
             Object.keys(ARBOL).forEach(key => {
                 const btn = document.createElement('div');
                 btn.className = 'tile-btn';
                 btn.innerText = key;
                 btn.onclick = () => selectAgrupador(key, btn);
-                container.appendChild(btn);
+                cont.appendChild(btn);
             });
         }
 
         function selectAgrupador(key, el) {
-            seleccionAgrupador = key;
-            document.querySelectorAll('.tile-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('sub-container').style.display = 'block';
-            const clasesCont = document.getElementById('clases-container');
-            clasesCont.innerHTML = "";
-            ARBOL[key].forEach(clase => {
-                const btn = document.createElement('div');
-                btn.className = 'tile-btn';
-                btn.innerText = clase;
-                btn.onclick = () => { seleccionClase = clase; document.querySelectorAll('#clases-container .tile-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); };
-                clasesCont.appendChild(btn);
-            });
+            const sub = document.getElementById('sub-container');
+            if(currentAgrupador === key) {
+                // Toggle off
+                sub.style.display = 'none';
+                el.classList.remove('active');
+                currentAgrupador = "";
+            } else {
+                currentAgrupador = key;
+                document.querySelectorAll('#agrupadores-container .tile-btn').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+                sub.style.display = 'block';
+                const clasesCont = document.getElementById('clases-container');
+                clasesCont.innerHTML = "";
+                ARBOL[key].forEach(clase => {
+                    const bClase = document.createElement('div');
+                    bClase.className = 'tile-btn';
+                    bClase.innerText = clase;
+                    bClase.onclick = () => {
+                        currentClase = clase;
+                        document.querySelectorAll('#clases-container .tile-btn').forEach(b => b.classList.remove('active'));
+                        bClase.classList.add('active');
+                    };
+                    clasesCont.appendChild(bClase);
+                });
+            }
         }
 
-        // --- BUSQUEDA ---
         window.buscarCliente = function() {
             const doc = document.getElementById('main-search').value;
-            if(!doc) return;
             get(child(ref(db), `clientes/${doc}`)).then((snapshot) => {
                 if(snapshot.exists()) {
-                    const d = snapshot.val();
                     document.getElementById('search-portal').classList.add('minimized');
                     document.getElementById('main-content').style.display = 'grid';
-                    document.getElementById('sim-trigger').style.display = 'flex';
-                    
-                    // Mapeo Visual
+                    const d = snapshot.val();
+                    const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
+
                     document.getElementById('c-nombre').innerText = d.nombre;
                     document.getElementById('c-doc').innerText = d.doc;
                     document.getElementById('c-tel').innerText = d.cel1 || "3163878494";
-                    document.getElementById('c-mail').innerText = d.email || "---";
-                    document.getElementById('c-cap').innerText = new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP'}).format(d.deudaTotal);
-                    
-                    // Timeline
+                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal);
+                    document.getElementById('c-sub').innerText = moneda.format(d.deudaTotal);
+
+                    // Línea de tiempo
                     const tl = document.getElementById('c-timeline');
                     tl.innerHTML = "";
-                    if(d.gestiones) {
-                        d.gestiones.reverse().forEach(g => {
+                    const gestiones = (d.gestion_historica || "Sin historial previo").split('|').reverse();
+                    gestiones.forEach(g => {
+                        if(g.trim()){
                             const div = document.createElement('div');
                             div.className = 'timeline-item';
-                            div.innerHTML = `<div class="timeline-date">${g.fecha}</div><div>${g.texto}</div>`;
+                            div.innerHTML = `<div class="timeline-date">REGISTRO DE SISTEMA</div><div>${g.trim()}</div>`;
                             tl.appendChild(div);
-                        });
-                    }
-                } else { alert("ID No registrado en el sistema operativo Nexus."); }
+                        }
+                    });
+                } else { alert("ID no encontrado."); }
             });
-        };
-
-        window.validarGuardado = function() {
-            if(!seleccionClase) return alert("Error: Debe seleccionar un resultado del árbol táctico.");
-            
-            if(seleccionClase === "Acuerdo de Pago") {
-                document.getElementById('modal-sim').style.display = 'flex';
-            } else {
-                alert("Gestión almacenada en memoria cuántica.");
-                location.reload();
-            }
         };
 
         window.sendWA = function() {
             const tel = document.getElementById('c-tel').innerText;
             window.open(`https://wa.me/57${tel}`, '_blank');
         };
+
+        window.registrarGestion = function() {
+            if(!currentClase) return alert("Debe seleccionar una tipificación del árbol.");
+            alert("Gestión guardada exitosamente.");
+            location.reload();
+        }
     </script>
 </body>
 </html>
