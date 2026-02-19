@@ -188,6 +188,55 @@
                             <div class="data-item"><span class="data-label">Entidad Origen</span><span class="data-value" id="c-entidad">---</span></div>
                             <div class="data-item"><span class="data-label">Instancia</span><span class="data-value" id="c-inst">---</span></div>
                             <div class="data-item"><span class="data-label">Franja Mora</span><span class="data-value" id="c-fra">---</span></div>
+                            <div class="data-item"><span class="data-label">Abogado</span><span class="data-value" id="c-abogado">---</span></div>
+                            <div class="data-item"><span class="data-label">Estado</span><span class="data-value" id="c-estado">---</span></div>
+                            <div class="data-item"><span class="data-label">No. Crédito</span><span class="data-value" id="c-noCredito">---</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-card" id="mod-contacto">
+                    <div class="collapsible-header" onclick="toggleModule('mod-contacto')"><h3>Información de Contacto Adicional</h3><i class="fa-solid fa-chevron-down"></i></div>
+                    <div class="collapsible-content">
+                        <div class="info-grid">
+                            <div class="data-item"><span class="data-label">Dirección</span><span class="data-value" id="c-dir">---</span></div>
+                            <div class="data-item"><span class="data-label">Celular 2</span><span class="data-value" id="c-tel2">---</span></div>
+                            <div class="data-item"><span class="data-label">Teléfono Fijo</span><span class="data-value" id="c-telf">---</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-card" id="mod-laboral">
+                    <div class="collapsible-header" onclick="toggleModule('mod-laboral')"><h3>Información Laboral</h3><i class="fa-solid fa-chevron-down"></i></div>
+                    <div class="collapsible-content">
+                        <div class="info-grid">
+                            <div class="data-item"><span class="data-label">NIT Empresa</span><span class="data-value" id="c-nitEmp">---</span></div>
+                            <div class="data-item"><span class="data-label">Empresa Donde Trabaja</span><span class="data-value" id="c-empresaTrab">---</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-card" id="mod-codeudor">
+                    <div class="collapsible-header" onclick="toggleModule('mod-codeudor')"><h3>Información del Codeudor</h3><i class="fa-solid fa-chevron-down"></i></div>
+                    <div class="collapsible-content">
+                        <div class="info-grid">
+                            <div class="data-item"><span class="data-label">Cédula Codeudor</span><span class="data-value" id="c-cedCod">---</span></div>
+                            <div class="data-item"><span class="data-label">Celular Codeudor</span><span class="data-value" id="c-celCod">---</span></div>
+                            <div class="data-item"><span class="data-label">Teléfono Fijo Codeudor</span><span class="data-value" id="c-telfCod">---</span></div>
+                            <div class="data-item"><span class="data-label">Dirección Codeudor</span><span class="data-value" id="c-dirCod">---</span></div>
+                            <div class="data-item"><span class="data-label">Correo Codeudor</span><span class="data-value" id="c-corrCod">---</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-card" id="mod-deudas">
+                    <div class="collapsible-header" onclick="toggleModule('mod-deudas')"><h3>Detalles de la Deuda</h3><i class="fa-solid fa-chevron-down"></i></div>
+                    <div class="collapsible-content">
+                        <div class="info-grid">
+                            <div class="data-item"><span class="data-label">Intereses Corrientes</span><span class="data-value" id="c-intCor">---</span></div>
+                            <div class="data-item"><span class="data-label">Seguros</span><span class="data-value" id="c-seg">---</span></div>
+                            <div class="data-item"><span class="data-label">Otros</span><span class="data-value" id="c-otros">---</span></div>
+                            <div class="data-item"><span class="data-label">Fecha Inicio Mora</span><span class="data-value" id="c-fechIni">---</span></div>
                         </div>
                     </div>
                 </div>
@@ -316,21 +365,52 @@
 
                     const d = snapshot.val();
 
-                    // LLENAR CAMPOS
+                    // DATOS DEL TITULAR
                     document.getElementById('c-nombre').innerText = d.nombre || '---';
                     document.getElementById('c-doc').innerText = d.doc || '---';
                     document.getElementById('c-tel').innerText = d.cel1 || "---";
                     document.getElementById('c-mail').innerText = d.email || "---";
-                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal || 0);
+
+                    // ESTADO FINANCIERO
+                    document.getElementById('c-cap').innerText = moneda.format(d.capital || d.deudaTotal || 0);
                     document.getElementById('c-imora').innerText = moneda.format(d.interesesMora || 0);
                     document.getElementById('c-sub').innerText = moneda.format((d.deudaTotal || 0) + (d.interesesMora || 0));
                     document.getElementById('c-mora-real').innerText = d.diasMora || "---";
-                    document.getElementById('c-gar').innerText = d.garantia || "---";
+
+                    // GARANTÍAS
+                    document.getElementById('c-gar').innerText = d.tipoGarantia || d.garantia || "---";
                     document.getElementById('c-pla').innerText = d.placa || "---";
                     document.getElementById('c-cod').innerText = d.codeudor || "---";
+
+                    // ASIGNACIÓN Y TRÁMITE
                     document.getElementById('c-entidad').innerText = d.entidad || "---";
                     document.getElementById('c-inst').innerText = d.instancia || "---";
                     document.getElementById('c-fra').innerText = d.franja_mora || "---";
+                    document.getElementById('c-abogado').innerText = d.abogado || "---";
+                    document.getElementById('c-estado').innerText = d.estado || "---";
+                    document.getElementById('c-noCredito').innerText = d.noCredito || "---";
+
+                    // CONTACTO ADICIONAL
+                    document.getElementById('c-dir').innerText = d.direccion || "---";
+                    document.getElementById('c-tel2').innerText = d.cel2 || "---";
+                    document.getElementById('c-telf').innerText = d.telefonoFijo || "---";
+
+                    // INFORMACIÓN LABORAL
+                    document.getElementById('c-nitEmp').innerText = d.nitEmpresa || "---";
+                    document.getElementById('c-empresaTrab').innerText = d.empresaTrabaja || "---";
+
+                    // CODEUDOR
+                    document.getElementById('c-cedCod').innerText = d.cedulaCod || "---";
+                    document.getElementById('c-celCod').innerText = d.celularCod || "---";
+                    document.getElementById('c-telfCod').innerText = d.telefonoFijoCod || "---";
+                    document.getElementById('c-dirCod').innerText = d.direccionCod || "---";
+                    document.getElementById('c-corrCod').innerText = d.correoCod || "---";
+
+                    // DETALLES DE LA DEUDA
+                    document.getElementById('c-intCor').innerText = moneda.format(d.interesesCorrientes || 0);
+                    document.getElementById('c-seg').innerText = moneda.format(d.seguros || 0);
+                    document.getElementById('c-otros').innerText = moneda.format(d.otros || 0);
+                    document.getElementById('c-fechIni').innerText = d.fechaIniciMora || "---";
                     
                     // Timeline
                     const tl = document.getElementById('c-timeline');
