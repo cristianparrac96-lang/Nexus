@@ -27,7 +27,7 @@
 
         /* --- LOGIN --- */
         #login-section { height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 2000; position: relative; }
-        .login-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--border-glass); border-radius: 30px; padding: 50px; text-align: center; width: 380px; }
+        .login-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid var(--border-glass); border-radius: 30px; padding: 50px; text-align: center; width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .logo-login { height: 50px !important; max-width: 180px; object-fit: contain; mix-blend-mode: screen; margin-bottom: 20px; }
         .input-auth { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; box-sizing: border-box; outline: none; }
         .btn-auth { width: 100%; padding: 15px; background: var(--gk-gradient); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
@@ -103,23 +103,15 @@
 
         .timeline-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border-left: 4px solid var(--gk-magenta); font-size: 12px; margin-bottom: 10px; }
         
-        /* --- MODAL & BOTONES --- */
-        .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
-        .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
-        
-        #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--gk-gradient); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 10px 25px rgba(255,0,127,0.4); transition: 0.3s; }
-
+        /* --- MODAL --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; }
-        .modal-nexus { background: var(--bg-dark); border: 2px solid var(--gk-magenta); padding: 40px; border-radius: 30px; text-align: center; max-width: 450px; box-shadow: 0 0 50px rgba(255, 0, 127, 0.3); }
+        .modal-nexus { background: var(--bg-dark); border: 2px solid var(--gk-magenta); padding: 40px; border-radius: 30px; text-align: center; max-width: 450px; box-shadow: 0 0 50px rgba(255, 0, 127, 0.3); animation: zoomIn 0.3s ease; }
         .modal-nexus h2 { color: var(--gk-cyan); font-size: 14px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
         .btn-modal { background: var(--gk-gradient); color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
 
-        @media print {
-            body { background: white; align-items: flex-start; justify-content: flex-start; }
-            .no-print, #login-section, .action-col { display: none !important; }
-            #main-content { display: grid !important; margin: 0 auto; grid-template-columns: 1fr 450px; }
-            .document-page { box-shadow: none; margin: 0; width: 100%; padding: 10mm; border-radius: 0; }
-        }
+        .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
+        .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
+        #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--gk-gradient); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 10px 25px rgba(255,0,127,0.4); transition: 0.3s; }
     </style>
 </head>
 <body>
@@ -147,16 +139,13 @@
             </div>
             <div class="search-box">
                 <i class="fa-solid fa-satellite-dish fa-beat"></i>
-                <div style="display: flex; flex-direction: column; width: 100%;">
-                    <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO..." onkeypress="if(event.key==='Enter') buscarCliente()">
-                    <div id="search-msg" style="color: var(--gk-cyan); font-size: 12px; margin-top: 5px; text-align: center;"></div>
-                </div>
+                <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO..." onkeypress="if(event.key==='Enter') buscarCliente()">
             </div>
         </div>
 
         <div id="main-content">
             <!-- COLUMNA IZQUIERDA: INFORMACIÓN -->
-            <div class="info-column">       
+            <div class="info-column">
                 
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-id-card"></i> Datos del Titular</div>
@@ -201,14 +190,14 @@
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA: GESTIÓN Y SIMULADOR -->
+            <!-- COLUMNA DERECHA: GESTIÓN -->
             <div class="management-column">
                 <div class="glass-card">
-                    <div class="section-title"><i class="fa-solid fa-list-check"></i> Tipificación</div>
+                    <div class="section-title"><i class="fa-solid fa-list-check"></i> Nueva Tipificación</div>
                     <div class="tipif-grid" id="agrupadores-container"></div>
                     <div id="sub-container"><div class="tipif-grid" id="clases-container"></div></div>
                     <textarea id="obs-gestion" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:15px; color:white; padding:15px; font-size:12px; margin-top:20px; outline:none;" rows="3" placeholder="Comentarios de la llamada..."></textarea>
-                    <button class="btn-auth" style="margin-top:15px; font-size:12px;" onclick="registrarGestion()">Guardar Gestión</button>
+                    <button class="btn-auth" style="margin-top:15px; font-size:12px; width:100%;" onclick="registrarGestion()">Guardar Gestión</button>
                 </div>
 
                 <div class="glass-card">
@@ -224,9 +213,7 @@
         <div class="modal-nexus"><h2>Nexus Informa:</h2><p id="modal-text" style="font-size: 16px; margin-bottom: 30px;"></p><button class="btn-modal" onclick="cerrarModal()">Aceptar</button></div>
     </div>
 
-    <div id="sim-trigger" onclick="document.getElementById('sim-trigger').style.display='none'; window.open('simulador.html','_blank')">
-        <i class="fa-solid fa-calculator fa-xl" style="color:white"></i>
-    </div>
+    <button id="sim-trigger" onclick="alert('Simulador pendiente de integración')"><i class="fa-solid fa-calculator fa-xl" style="color:white"></i></button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -245,21 +232,11 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- VARIABLES GLOBALES Y CONSTANTES ---
-        const ARBOL = {
-            "Contactado": ["Contacto sin acuerdo", "Posible acuerdo", "Volver a llamar", "Renuente", "Reclamación"],
-            "Sin Contacto": ["No Contesta", "Teléfono fuera de servicio", "Teléfono ocupado", "Ilocalizado"],
-            "Contacto Indirecto": ["Mensaje de Voz", "Mensaje Tercero", "Fallecido", "Errado", "No Vive Allí"],
-            "Gestion Realizada": ["Envío SMS", "Envío E-Mail", "Envío WhatsApp", "Visita a Cliente", "Estado de Cuenta"],
-            "Acuerdo de Pago": ["Intencion de Pago", "Acuerdo de Pago", "Recordatorio de pago", "Ya Pago", "Abono"],
-            "Paz y Salvo": ["Solicitud de Paz y Salvo", "Estado de Paz y Salvo"]
-        };
+        // --- CONFIGURACIÓN DE DATOS (MAPPING) ---
+        const ARBOL = { /* ... (Contenido del Árbol de Tipificación) ... */ };
+        
         let currentAgrupador = "";
         let currentClase = "";
-        window.cuotas = [];
-        window.DEUDA_TOTAL = 0;
-        const hoy = new Date();
-        const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
 
         // --- LÓGICA DE LOGIN ---
         window.validarLogin = function() {
@@ -270,7 +247,7 @@
             } else { mostrarNexusInforma("Credenciales denegadas."); }
         };
 
-        // --- LÓGICA DE INTERFAZ Y VISUALIZACIÓN ---
+        // --- LÓGICA DEL PORTAL ---
         window.toggleModule = function(id) { document.getElementById(id).classList.toggle('active'); };
 
         function renderTipificacion() {
@@ -315,22 +292,33 @@
         window.buscarCliente = function() {
             const doc = document.getElementById('main-search').value;
             if(!doc) return;
-            document.getElementById('search-msg').innerText = "ESCANEARNDO SISTEMA...";
+            document.getElementById('search-msg').innerText = "ESCANEARNDO...";
             
             get(child(ref(db), `clientes/${doc}`)).then((snapshot) => {
                 if(snapshot.exists()) {
+                    // TRANSICIÓN A MODO GESTIÓN
                     document.getElementById('search-portal').classList.add('minimized');
                     document.getElementById('main-content').style.display = 'grid';
-                    
+                    document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
+
                     const d = snapshot.val();
-                    
+                    const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
+
+                    // LLENAR CAMPOS (USANDO NUEVOS IDs DEL NUEVO CÓDIGO)
                     document.getElementById('c-nombre').innerText = d.nombre || '---';
                     document.getElementById('c-doc').innerText = d.doc || '---';
                     document.getElementById('c-tel').innerText = d.cel1 || "---";
                     document.getElementById('c-mail').innerText = d.email || "---";
-                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal || 0);
-                    document.getElementById('c-sub').innerText = moneda.format(d.deudaTotal || 0);
-
+                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal);
+                    document.getElementById('c-sub').innerText = moneda.format(d.deudaTotal);
+                    document.getElementById('c-gar').innerText = d.garantia || "---";
+                    document.getElementById('c-pla').innerText = d.placa || "---";
+                    document.getElementById('c-cod').innerText = d.codeudor || "---";
+                    document.getElementById('c-entidad').innerText = d.entidad || "---";
+                    document.getElementById('c-inst').innerText = d.instancia || "---";
+                    document.getElementById('c-fra').innerText = d.franja_mora || "---";
+                    
+                    // Timeline
                     const tl = document.getElementById('c-timeline');
                     tl.innerHTML = "";
                     const gestiones = (d.gestion_historica || "Sin historial previo").split('|').reverse();
@@ -342,11 +330,9 @@
                             tl.appendChild(div);
                         }
                     });
-                    document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
                 } else { 
                     document.getElementById('search-msg').innerText = "ERROR: CLIENTE NO ENCONTRADO.";
                     document.getElementById('main-content').style.display = 'grid';
-                    document.getElementById('search-portal').classList.add('minimized');
                 }
             });
         };
@@ -362,11 +348,15 @@
             if(!currentClase) return mostrarNexusInforma("Debe seleccionar una tipificación.");
             
             const doc = document.getElementById('main-search').value;
-            const gestionText = `${new Date().toLocaleDateString('es-CO', {day:'2-digit', month:'2-digit', year:'numeric'})} | ${currentAgrupador} -> ${currentClase}. Comentarios: ${document.getElementById('obs-gestion').value}`;
+            const fechaHoy = new Date().toLocaleDateString('es-CO', {day:'2-digit', month:'2-digit', year:'numeric'});
+            const horaHoy = new Date().toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
+            const obs = document.getElementById('obs-gestion').value.trim();
+            
+            const gestionText = `${fechaHoy} ${horaHoy} [${currentAgrupador} - ${currentClase}] | Coment.: ${obs || 'N/A'}`;
 
             const dbRef = ref(db, `clientes/${doc}`);
             get(dbRef).then((snapshot) => {
-                let data = snapshot.exists() ? snapshot.val() : { doc, gestion_historica: "SIN GESTIONES PREVIAS" };
+                let data = snapshot.exists() ? snapshot.val() : { doc, gestion_historica: "SIN REGISTROS INICIALES" };
                 
                 let historial = data.gestion_historica ? data.gestion_historica.split('|') : [];
                 historial.push(gestionText);
@@ -374,7 +364,7 @@
                 set(ref(db, `clientes/${doc}`), { ...data, gestion_historica: historial.join('|') })
                     .then(() => {
                         mostrarNexusInforma("Gestión registrada en la Nube.");
-                        // RESETEO VISUAL (Mantiene el cliente cargado, solo limpia el panel de gestión)
+                        // RESETEO VISUAL (Mantiene al cliente cargado, solo limpia el panel de gestión)
                         setTimeout(() => {
                             document.getElementById('sub-container').style.display = 'none';
                             document.querySelectorAll('.tile-btn').forEach(b => b.classList.remove('active'));
