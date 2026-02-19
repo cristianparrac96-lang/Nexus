@@ -290,27 +290,30 @@
         }
 
         window.buscarCliente = function() {
-            const doc = document.getElementById('main-search').value;
-            if(!doc) return;
-            document.getElementById('search-msg').innerText = "ESCANEARNDO...";
+            const doc = document.getElementById('main-search').value.trim();
+            if(!doc) {
+                document.getElementById('search-msg').innerText = "Ingresa una identificación.";
+                return;
+            }
+            document.getElementById('search-msg').innerText = "ESCANEANDO SISTEMA...";
             
             get(child(ref(db), `clientes/${doc}`)).then((snapshot) => {
                 if(snapshot.exists()) {
                     // TRANSICIÓN A MODO GESTIÓN
                     document.getElementById('search-portal').classList.add('minimized');
                     document.getElementById('main-content').style.display = 'grid';
-                    document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
 
                     const d = snapshot.val();
-                    const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
 
-                    // LLENAR CAMPOS (USANDO NUEVOS IDs DEL NUEVO CÓDIGO)
+                    // LLENAR CAMPOS
                     document.getElementById('c-nombre').innerText = d.nombre || '---';
                     document.getElementById('c-doc').innerText = d.doc || '---';
                     document.getElementById('c-tel').innerText = d.cel1 || "---";
                     document.getElementById('c-mail').innerText = d.email || "---";
-                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal);
-                    document.getElementById('c-sub').innerText = moneda.format(d.deudaTotal);
+                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal || 0);
+                    document.getElementById('c-imora').innerText = moneda.format(d.interesesMora || 0);
+                    document.getElementById('c-sub').innerText = moneda.format((d.deudaTotal || 0) + (d.interesesMora || 0));
+                    document.getElementById('c-mora-real').innerText = d.diasMora || "---";
                     document.getElementById('c-gar').innerText = d.garantia || "---";
                     document.getElementById('c-pla').innerText = d.placa || "---";
                     document.getElementById('c-cod').innerText = d.codeudor || "---";
@@ -330,10 +333,17 @@
                             tl.appendChild(div);
                         }
                     });
+                    
+                    document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
                 } else { 
                     document.getElementById('search-msg').innerText = "ERROR: CLIENTE NO ENCONTRADO.";
-                    document.getElementById('main-content').style.display = 'grid';
+                    document.getElementById('main-content').style.display = 'none';
+                    document.getElementById('search-portal').classList.remove('minimized');
                 }
+            }).catch((error) => {
+                console.error('Error en búsqueda:', error);
+                document.getElementById('search-msg').innerText = "ERROR EN LA BÚSQUEDA. INTENTA NUEVAMENTE.";
+                document.getElementById('main-content').style.display = 'none';
             });
         };
 
