@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | Terminal de Gestión Operativa (Historial Activo)</title>
+    <title>Nexus | Terminal de Gestión Operativa</title>
     <link rel="icon" href="img/Logo_GK.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -58,7 +58,12 @@
         .logo-portal { height: 65px !important; max-width: 220px; object-fit: contain; mix-blend-mode: screen; filter: brightness(1.1); transition: 0.5s; }
         #search-portal.minimized .logo-portal { height: 32px !important; pointer-events: auto; }
 
-        .search-box { background: var(--glass); border: 1px solid var(--border-glass); padding: 12px 25px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); width: 100%; max-width: 500px; position: relative; z-index: 2; }
+        .search-box { 
+            background: var(--glass); border: 1px solid var(--border-glass); 
+            padding: 12px 25px; border-radius: 50px; display: flex; align-items: center; 
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); width: 100%; max-width: 500px;
+            position: relative; z-index: 2;
+        }
         #search-portal.minimized .search-box { box-shadow: none; max-width: 400px; margin: 0 auto; }
         .search-box input { background: transparent; border: none; color: white; font-size: 16px; width: 100%; outline: none; padding-left: 15px; }
         .search-box i { color: var(--gk-cyan); }
@@ -88,6 +93,7 @@
         .collapsible-header h3 { margin: 0; font-size: 12px; color: var(--gk-cyan); text-transform: uppercase; }
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 25px; }
         .collapsible-card.active .collapsible-content { max-height: 500px; padding: 20px 25px; }
+        .collapsible-card.active .fa-chevron-down { transform: rotate(180deg); color: var(--gk-magenta); }
 
         /* --- TIPIFICACIÓN --- */
         .tipif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -97,17 +103,23 @@
 
         .timeline-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border-left: 4px solid var(--gk-magenta); font-size: 12px; margin-bottom: 10px; }
         
-        /* --- MODAL --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; }
-        .modal-nexus { background: var(--bg-dark); border: 2px solid var(--gk-magenta); padding: 40px; border-radius: 30px; text-align: center; max-width: 450px; box-shadow: 0 0 50px rgba(255, 0, 127, 0.3); animation: zoomIn 0.3s ease; }
-        .modal-nexus h2 { color: var(--gk-cyan); font-size: 14px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
-        .btn-modal { background: var(--gk-gradient); color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-
+        /* --- MODAL & BOTONES --- */
         .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
         .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
         
         #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--gk-gradient); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 10px 25px rgba(255,0,127,0.4); transition: 0.3s; }
-        #sim-trigger:hover { transform: scale(1.1) rotate(15deg); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; }
+        .modal-nexus { background: var(--bg-dark); border: 2px solid var(--gk-magenta); padding: 40px; border-radius: 30px; text-align: center; max-width: 450px; box-shadow: 0 0 50px rgba(255, 0, 127, 0.3); }
+        .modal-nexus h2 { color: var(--gk-cyan); font-size: 14px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        .btn-modal { background: var(--gk-gradient); color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
+        @media print {
+            body { background: white; align-items: flex-start; justify-content: flex-start; }
+            .no-print, #login-section, .action-col { display: none !important; }
+            #main-content { display: grid !important; margin: 0 auto; grid-template-columns: 1fr 450px; }
+            .document-page { box-shadow: none; margin: 0; width: 100%; padding: 10mm; border-radius: 0; }
+        }
     </style>
 </head>
 <body>
@@ -142,6 +154,7 @@
         <div id="main-content">
             <!-- COLUMNA IZQUIERDA: INFORMACIÓN -->
             <div class="info-column">
+                
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-id-card"></i> Datos del Titular</div>
                     <div class="info-grid">
@@ -185,7 +198,7 @@
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA: GESTIÓN -->
+            <!-- COLUMNA DERECHA: GESTIÓN Y SIMULADOR -->
             <div class="management-column">
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-list-check"></i> Tipificación</div>
@@ -203,20 +216,18 @@
         </div>
     </main>
 
-    <!-- MODAL NEXUS -->
+    <!-- MODALES -->
     <div id="nexus-modal" class="modal-overlay">
-        <div class="modal-nexus">
-            <h2 id="modal-title">Nexus Informa:</h2>
-            <p id="modal-text" style="font-size: 16px; margin-bottom: 30px;"></p>
-            <button class="btn-modal" onclick="cerrarModal()">Aceptar</button>
-        </div>
+        <div class="modal-nexus"><h2>Nexus Informa:</h2><p id="modal-text" style="font-size: 16px; margin-bottom: 30px;"></p><button class="btn-modal" onclick="cerrarModal()">Aceptar</button></div>
     </div>
 
-    <button id="sim-trigger" onclick="alert('Simulador pendiente de integración')"><i class="fa-solid fa-calculator fa-xl" style="color:white"></i></button>
+    <div id="sim-trigger" onclick="document.getElementById('sim-trigger').style.display='none'; window.open('simulador.html','_blank')">
+        <i class="fa-solid fa-calculator fa-xl" style="color:white"></i>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get, set, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAtCfbyanD34rsy_7sVaagDnzn4idWtjfk",
@@ -231,6 +242,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // --- VARIABLES GLOBALES Y CONSTANTES ---
         const ARBOL = {
             "Contactado": ["Contacto sin acuerdo", "Posible acuerdo", "Volver a llamar", "Renuente", "Reclamación"],
             "Sin Contacto": ["No Contesta", "Teléfono fuera de servicio", "Teléfono ocupado", "Ilocalizado"],
@@ -239,10 +251,14 @@
             "Acuerdo de Pago": ["Intencion de Pago", "Acuerdo de Pago", "Recordatorio de pago", "Ya Pago", "Abono"],
             "Paz y Salvo": ["Solicitud de Paz y Salvo", "Estado de Paz y Salvo"]
         };
-
         let currentAgrupador = "";
         let currentClase = "";
+        window.cuotas = [];
+        window.DEUDA_TOTAL = 0;
+        const hoy = new Date();
+        const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
 
+        // --- LÓGICA DE LOGIN ---
         window.validarLogin = function() {
             if(document.getElementById('user').value === "Admin" && document.getElementById('pass').value === "123") {
                 document.getElementById('login-section').style.display = 'none';
@@ -251,6 +267,7 @@
             } else { mostrarNexusInforma("Credenciales denegadas."); }
         };
 
+        // --- LÓGICA DE INTERFAZ Y VISUALIZACIÓN ---
         window.toggleModule = function(id) { document.getElementById(id).classList.toggle('active'); };
 
         function renderTipificacion() {
@@ -301,16 +318,15 @@
                 if(snapshot.exists()) {
                     document.getElementById('search-portal').classList.add('minimized');
                     document.getElementById('main-content').style.display = 'grid';
-                    document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
                     
                     const d = snapshot.val();
-                    const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
-
-                    document.getElementById('c-nombre').innerText = d.nombre;
-                    document.getElementById('c-doc').innerText = d.doc;
+                    
+                    document.getElementById('c-nombre').innerText = d.nombre || '---';
+                    document.getElementById('c-doc').innerText = d.doc || '---';
                     document.getElementById('c-tel').innerText = d.cel1 || "---";
-                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal);
-                    document.getElementById('c-sub').innerText = moneda.format(d.deudaTotal);
+                    document.getElementById('c-mail').innerText = d.email || "---";
+                    document.getElementById('c-cap').innerText = moneda.format(d.deudaTotal || 0);
+                    document.getElementById('c-sub').innerText = moneda.format(d.deudaTotal || 0);
 
                     const tl = document.getElementById('c-timeline');
                     tl.innerHTML = "";
@@ -323,9 +339,11 @@
                             tl.appendChild(div);
                         }
                     });
+                    document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
                 } else { 
-                    document.getElementById('search-msg').innerText = "CLIENTE NO ENCONTRADO.";
+                    document.getElementById('search-msg').innerText = "ERROR: CLIENTE NO ENCONTRADO.";
                     document.getElementById('main-content').style.display = 'grid';
+                    document.getElementById('search-portal').classList.add('minimized');
                 }
             });
         };
@@ -343,26 +361,23 @@
             const doc = document.getElementById('main-search').value;
             const gestionText = `${new Date().toLocaleDateString('es-CO', {day:'2-digit', month:'2-digit', year:'numeric'})} | ${currentAgrupador} -> ${currentClase}. Comentarios: ${document.getElementById('obs-gestion').value}`;
 
-            // Leer datos existentes o crear estructura
             const dbRef = ref(db, `clientes/${doc}`);
             get(dbRef).then((snapshot) => {
                 let data = snapshot.exists() ? snapshot.val() : { doc, gestion_historica: "SIN GESTIONES PREVIAS" };
                 
-                // Actualizar o crear la lista de gestiones
                 let historial = data.gestion_historica ? data.gestion_historica.split('|') : [];
                 historial.push(gestionText);
                 
-                // Guardar de vuelta
                 set(ref(db, `clientes/${doc}`), { ...data, gestion_historica: historial.join('|') })
                     .then(() => {
                         mostrarNexusInforma("Gestión registrada en la Nube.");
-                        // RESETEO VISUAL (Manteniendo el estado de búsqueda)
+                        // RESETEO VISUAL (Mantiene el cliente cargado, solo limpia el panel de gestión)
                         setTimeout(() => {
                             document.getElementById('sub-container').style.display = 'none';
                             document.querySelectorAll('.tile-btn').forEach(b => b.classList.remove('active'));
                             currentClase = ""; currentAgrupador = "";
                             document.getElementById('obs-gestion').value = "";
-                            // Vuelve a buscar para refrescar el historial
+                            // Vuelve a cargar el cliente para refrescar el historial
                             buscarCliente(); 
                         }, 1500);
                     });
