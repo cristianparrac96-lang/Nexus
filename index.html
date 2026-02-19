@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2Nexus | Terminal de Gestión Operativa</title>
+    <title>3Nexus | Terminal de Gestión Operativa</title>
     <link rel="icon" href="img/Logo_GK.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -113,6 +113,17 @@
         .btn-wa { background: #25d366; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
         .badge-mora { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; border: 1px solid rgba(225, 29, 72, 0.3); }
         #sim-trigger { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--gk-gradient); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 10px 25px rgba(255,0,127,0.4); transition: 0.3s; }
+        
+        /* --- BOTONES DE ACCIÓN --- */
+        .btn-accion { background: rgba(0, 212, 255, 0.15); color: var(--gk-cyan); border: 1px solid rgba(0, 212, 255, 0.3); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 11px; text-transform: uppercase; margin: 5px; transition: 0.3s; }
+        .btn-accion:hover { background: rgba(0, 212, 255, 0.3); box-shadow: 0 0 15px rgba(0, 212, 255, 0.2); }
+        .btn-accion.danger { background: rgba(225, 29, 72, 0.15); color: #ff4d6d; border-color: rgba(225, 29, 72, 0.3); }
+        .btn-accion.danger:hover { background: rgba(225, 29, 72, 0.3); }
+        .acciones-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 212, 255, 0.1); }
+        
+        /* --- EDITOR MODAL --- */
+        #editor-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; }
+        #editor-modal .editor-box { background: var(--bg-dark); border: 2px solid var(--gk-cyan); padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 50px rgba(0, 212, 255, 0.2); }
     </style>
 </head>
 <body>
@@ -158,6 +169,12 @@
                         <div class="data-item"><span class="data-label">Identificación</span><span class="data-value" id="c-doc">---</span></div>
                         <div class="data-item"><span class="data-label">Celular</span><div class="data-value"><span id="c-tel">---</span> <button class="btn-wa" onclick="sendWA()"><i class="fa-brands fa-whatsapp"></i></button></div></div>
                         <div class="data-item"><span class="data-label">Correo</span><span class="data-value" id="c-mail">---</span></div>
+                    </div>
+                    <div class="acciones-container">
+                        <button class="btn-accion" onclick="abrirEditorCliente()"><i class="fa-solid fa-pen"></i> Editar Datos</button>
+                        <button class="btn-accion" onclick="sincronizarGestiones()"><i class="fa-solid fa-refresh"></i> Sincronizar</button>
+                        <button class="btn-accion" onclick="crearBackupCliente()"><i class="fa-solid fa-save"></i> Backup</button>
+                        <button class="btn-accion" onclick="exportarDatos()"><i class="fa-solid fa-download"></i> Descargar</button>
                     </div>
                 </div>
 
@@ -270,11 +287,16 @@
         <div class="modal-nexus"><h2>Nexus Informa:</h2><p id="modal-text" style="font-size: 16px; margin-bottom: 30px;"></p><button class="btn-modal" onclick="cerrarModal()">Aceptar</button></div>
     </div>
 
+    <!-- MODAL DE EDITOR -->
+    <div id="editor-modal" class="modal-overlay" onclick="if(event.target.id === 'editor-modal') cerrarEditorCliente()">
+        <div class="editor-box" id="editor-contenido"></div>
+    </div>
+
     <button id="sim-trigger" onclick="alert('Simulador pendiente de integración')"><i class="fa-solid fa-calculator fa-xl" style="color:white"></i></button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, get, set, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get, set, child, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAtCfbyanD34rsy_7sVaagDnzn4idWtjfk",
@@ -437,10 +459,13 @@
                         if(g.trim()){
                             const div = document.createElement('div');
                             div.className = 'timeline-item';
-                            div.innerHTML = `<div class="timeline-date">REGISTRO OPERATIVO</div><div>${g.trim()}</div>`;
+                            div.innerHTML = `<div class="timeline-date">REGISTRO GESTIÓN</div><div>${g.trim()}</div>`;
                             tl.appendChild(div);
                         }
                     });
+                    
+                    // Guardar cliente en memoria para edición
+                    window.clienteActual = d;
                     
                     document.getElementById('search-msg').innerText = "REGISTRO LOCALIZADO.";
                 } else { 
@@ -470,7 +495,7 @@
             const horaHoy = new Date().toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
             const obs = document.getElementById('obs-gestion').value.trim();
             
-            const gestionText = `${fechaHoy} ${horaHoy} [${currentAgrupador} - ${currentClase}] | Coment.: ${obs || 'N/A'}`;
+            const gestionText = `${fechaHoy} ${horaHoy} [${currentAgrupador} - ${currentClase}] | Resultado: ${obs || 'N/A'}`;
 
             const dbRef = ref(db, `clientes/${doc}`);
             get(dbRef).then((snapshot) => {
@@ -497,5 +522,8 @@
 
         window.sendWA = function() { window.open(`https://wa.me/57${document.getElementById('c-tel').innerText}`, '_blank'); };
     </script>
+
+    <!-- Script de Sincronización y Edición -->
+    <script src="sync-manager.js"></script>
 </body>
 </html>
