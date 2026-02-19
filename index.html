@@ -147,14 +147,16 @@
             </div>
             <div class="search-box">
                 <i class="fa-solid fa-satellite-dish fa-beat"></i>
-                <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO..." onkeypress="if(event.key==='Enter') buscarCliente()">
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO..." onkeypress="if(event.key==='Enter') buscarCliente()">
+                    <div id="search-msg" style="color: var(--gk-cyan); font-size: 12px; margin-top: 5px; text-align: center;"></div>
+                </div>
             </div>
-            <div id="search-msg" style="color: var(--gk-cyan); font-size: 14px; margin-top: 10px; text-align: center;"></div>
         </div>
 
         <div id="main-content">
             <!-- COLUMNA IZQUIERDA: INFORMACIÓN -->
-            <div class="info-column">
+            <div class="info-column">       
                 
                 <div class="glass-card">
                     <div class="section-title"><i class="fa-solid fa-id-card"></i> Datos del Titular</div>
