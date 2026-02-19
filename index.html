@@ -77,6 +77,7 @@
         }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 500px; } }
 
         .glass-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border-glass); padding: 30px; border-radius: 24px; margin-bottom: 25px; }
         .section-title { font-size: 13px; font-weight: 600; color: var(--gk-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(0, 212, 255, 0.1); padding-bottom: 12px; }
@@ -168,6 +169,22 @@
                         <div class="data-item"><span class="data-label">Subtotal Deuda</span><span class="data-value" style="font-weight: 600;" id="c-sub">---</span></div>
                         <div class="data-item"><span class="data-label">Días en Mora</span><span class="badge-mora" id="c-mora-real">---</span></div>
                     </div>
+                    
+                    <!-- Detalles de la Deuda como subsección colapsable -->
+                    <div style="margin-top: 20px; border-top: 1px solid rgba(0, 212, 255, 0.2); padding-top: 20px;">
+                        <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 12px; margin-bottom: 15px;" onclick="toggleDeudaDetails()">
+                            <span style="font-size: 12px; color: var(--gk-cyan); text-transform: uppercase; font-weight: 600;">Detalles Adicionales</span>
+                            <i class="fa-solid fa-chevron-down" id="deuda-chevron" style="color: var(--gk-cyan); transition: 0.3s;"></i>
+                        </div>
+                        <div id="deuda-details" style="display: none; animation: slideDown 0.3s ease;">
+                            <div class="info-grid">
+                                <div class="data-item"><span class="data-label">Intereses Corrientes</span><span class="data-value" id="c-intCor">---</span></div>
+                                <div class="data-item"><span class="data-label">Seguros</span><span class="data-value" id="c-seg">---</span></div>
+                                <div class="data-item"><span class="data-label">Otros</span><span class="data-value" id="c-otros">---</span></div>
+                                <div class="data-item"><span class="data-label">Fecha Inicio Mora</span><span class="data-value" id="c-fechIni">---</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="collapsible-card" id="mod-garantias">
@@ -225,18 +242,6 @@
                             <div class="data-item"><span class="data-label">Teléfono Fijo Codeudor</span><span class="data-value" id="c-telfCod">---</span></div>
                             <div class="data-item"><span class="data-label">Dirección Codeudor</span><span class="data-value" id="c-dirCod">---</span></div>
                             <div class="data-item"><span class="data-label">Correo Codeudor</span><span class="data-value" id="c-corrCod">---</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="collapsible-card" id="mod-deudas">
-                    <div class="collapsible-header" onclick="toggleModule('mod-deudas')"><h3>Detalles de la Deuda</h3><i class="fa-solid fa-chevron-down"></i></div>
-                    <div class="collapsible-content">
-                        <div class="info-grid">
-                            <div class="data-item"><span class="data-label">Intereses Corrientes</span><span class="data-value" id="c-intCor">---</span></div>
-                            <div class="data-item"><span class="data-label">Seguros</span><span class="data-value" id="c-seg">---</span></div>
-                            <div class="data-item"><span class="data-label">Otros</span><span class="data-value" id="c-otros">---</span></div>
-                            <div class="data-item"><span class="data-label">Fecha Inicio Mora</span><span class="data-value" id="c-fechIni">---</span></div>
                         </div>
                     </div>
                 </div>
@@ -309,6 +314,18 @@
 
         // --- LÓGICA DEL PORTAL ---
         window.toggleModule = function(id) { document.getElementById(id).classList.toggle('active'); };
+        
+        window.toggleDeudaDetails = function() {
+            const deudaDetails = document.getElementById('deuda-details');
+            const chevron = document.getElementById('deuda-chevron');
+            if (deudaDetails.style.display === 'none') {
+                deudaDetails.style.display = 'block';
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                deudaDetails.style.display = 'none';
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        };
 
         function renderTipificacion() {
             const cont = document.getElementById('agrupadores-container');
