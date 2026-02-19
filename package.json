@@ -1,0 +1,17 @@
+{
+  "name": "nexus-import",
+  "version": "1.0.0",
+  "description": "Script para importar datos de Excel a Firebase - Nexus",
+  "main": "import.js",
+  "scripts": {
+    "start": "node import.js",
+    "import": "node import.js"
+  },
+  "keywords": ["firebase", "excel", "import"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "xlsx": "^0.18.5"
+  }
+}

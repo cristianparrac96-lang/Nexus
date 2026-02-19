@@ -1,0 +1,387 @@
+╔════════════════════════════════════════════════════════════════╗
+║                    NEXUS QUICK START                           ║
+║                  ¡Comienza en 10 minutos!                      ║
+╚════════════════════════════════════════════════════════════════╝
+
+## ⏱️ TIEMPO TOTAL: 10 MINUTOS
+
+---
+
+### PASO 1: Preparar Firebase (2 min)
+
+1. Ve a: https://console.firebase.google.com
+2. Proyecto: cobranzas-gk
+3. ⚙️ Configuración del Proyecto (arriba derecha)
+4. "Cuentas de Servicio"
+5. "Generar nueva clave privada"
+6. Se descarga: archivo JSON
+7. Renombra a: `firebase-service-account.json`
+8. Mueve a tu carpeta de Nexus: `7. Herramientas COBRO\CRM\App`
+
+✓ **LISTO EN 2 MIN**
+
+---
+
+### PASO 2: Instalar dependencias (5 min)
+
+1. Abre PowerShell
+2. Ve a: `cd "C:\Users\Cristian Parra\Documents\7. Herramientas COBRO\CRM\App"`
+3. Ejecuta: `npm install`
+4. Espera a que terminen las descargas (~5 min)
+
+✓ **LISTO EN 5 MIN**
+
+---
+
+### PASO 3: Preparar tu Excel (1-2 min)
+
+1. Coloca tu archivo: `clientes.xlsx`
+2. En la misma carpeta de Nexus
+3. **IMPORTANTE:** 
+   - Primera columna se llama: "Documento"
+   - Contiene los números de identidad
+   - Si tus gestiones tienen múltiples registros, deben estar en UNA celda separados por "|"
+
+Ejemplo:
+```
+Documento | Nombre         | Celular    | ... | gestion_historica
+1234567890| Juan García    | 3001234567 | ... | 2026-02-15|Contactado|2026-02-10|Sin Contacto
+```
+
+✓ **LISTO EN 1-2 MIN**
+
+---
+
+### PASO 4: Importar (1-2 min)
+
+1. PowerShell (misma ventana anterior)
+2. Ejecuta: `npm start`
+3. Espera a ver el resumen:
+   ```
+   ✅ Encontrados XXX registros
+   ✅ [1/XXX] Importando...
+   ✅ IMPORTACIÓN COMPLETADA
+   ```
+
+✓ **LISTO EN 1-2 MIN**
+
+---
+
+### PASO 5: Usar Nexus (1 min)
+
+1. Abre: `index.html` en navegador
+2. Login:
+   - Usuario: **Admin**
+   - Contraseña: **123**
+3. Búsqueda: Ingresa un número de documento
+4. Presiona: **Enter**
+
+✓ **¡LISTO! 🎉**
+
+---
+
+## 📊 LO QUE VES EN NEXUS
+
+```
+DATOS DEL TITULAR
+├─ Nombre
+├─ Identificación
+├─ Celular [WhatsApp]
+├─ Correo
+└─ [✏️ Editar] [🔄 Sincronizar] [💾 Backup] [⬇️ Descargar]
+
+ESTADO FINANCIERO
+├─ Capital Adeudado
+├─ Intereses Mora
+├─ Subtotal
+├─ Días en Mora
+└─ ▼ Detalles Adicionales (expandible)
+
++ 6 SECCIONES MÁS DE INFORMACIÓN
+
+NUEVA TIPIFICACIÓN
+├─ Selecciona categoría (Contactado, Sin Contacto, etc)
+├─ Selecciona tipo (Acuerdo, Posible acuerdo, etc)
+├─ Agrega comentarios
+└─ [GUARDAR GESTIÓN]
+
+HISTORIAL CRONOLÓGICO
+└─ Todas tus gestiones con fecha y hora
+```
+
+---
+
+## ✏️ EDITAR CLIENTE
+
+1. En Nexus, clic: **[✏️ Editar Datos]**
+2. Modal se abre
+3. Edita lo que necesites:
+   - Celular
+   - Email
+   - Teléfono
+   - Dirección
+   - Empresa
+   - Observaciones
+   - Estado
+4. Clic: **[✓ Guardar Cambios]**
+5. ✅ Se actualiza Firebase automáticamente
+
+---
+
+## 📝 REGISTRAR GESTIÓN
+
+1. Selecciona: **Contactado** (o categoría)
+2. Selecciona: **Posible acuerdo** (o tipo)
+3. Escribe comentarios (opcional)
+4. Clic: **[GUARDAR GESTIÓN]**
+5. ✅ Se registra con fecha y hora
+
+---
+
+## 🔄 SINCRONIZAR
+
+Si otro usuario editó el cliente en Firebase:
+1. Clic: **[🔄 Sincronizar]**
+2. Espera 1 segundo
+3. ✅ Datos frescos cargados
+
+---
+
+## 💾 BACKUP
+
+Antes de cambios importantes:
+1. Clic: **[💾 Backup]**
+2. ✅ Copia de seguridad creada
+3. (Puedes restaurar luego si lo necesitas)
+
+---
+
+## ⬇️ DESCARGAR
+
+Para exportar datos:
+1. Clic: **[⬇️ Descargar]**
+2. Se descarga: `cliente_{documento}.csv`
+3. Abre en Excel o usa donde quieras
+
+---
+
+## 🆘 ALGO NO FUNCIONA
+
+### Búsqueda no trae datos
+```
+Solución:
+1. Verifica que el documento existe en tu Excel
+2. Ejecuta nuevamente: npm start
+3. Ve a Firebase Console y busca: clientes/{documento}
+```
+
+### Edición no guarda
+```
+Solución:
+1. Abre consola (F12)
+2. Revisa si aparecen errores rojos
+3. Verifica conexión a internet
+4. Intenta nuevamente
+```
+
+### Todo va lento
+```
+Solución:
+1. Recarga página (Ctrl+R)
+2. Cierra y abre nuevamente
+3. Verifica conexión a internet
+4. Si persiste, reinicia navegador
+```
+
+---
+
+## 📱 ACCESOS RÁPIDOS
+
+### Navegación
+```
+Búsqueda      → Campo superior, ingresa documento
+Editar        → [✏️] en Datos del Titular
+Gestión       → Sección Nueva Tipificación
+Historial     → Sección Historial Cronológico
+WhatsApp      → [Botón al lado de celular]
+```
+
+### Administración
+```
+Sincronizar   → [🔄] Recarga datos frescos
+Backup        → [💾] Crea copia de seguridad
+Descargar     → [⬇️] Exporta a CSV
+```
+
+---
+
+## 🎯 CASO DE USO TÍPICO (una gestión)
+
+```
+09:00 - Abres Nexus
+│
+09:01 - Buscas cliente "1234567890"
+│
+09:02 - Ves todos sus datos
+│        └─ Nombre: Juan García
+│        └─ Celular: 3001234567
+│        └─ Deuda: $500.000
+│
+09:05 - Llamas al cliente
+│        └─ "Hola Juan, ¿cómo estás?"
+│
+09:10 - Registras gestión:
+│        └─ Tipificación: "Contactado"
+│        └─ Tipo: "Posible acuerdo"
+│        └─ Comentario: "Interesado, llamar mañana"
+│        └─ Clic: GUARDAR GESTIÓN
+│
+09:11 - ✅ SE GUARDÓ AUTOMÁTICAMENTE
+│        ├─ En Nexus (en el historial)
+│        ├─ En Firebase (nube)
+│        └─ Disponible para otros usuarios
+│
+09:15 - Continúas con siguiente cliente
+│
+FIN DE GESTIÓN ✓
+```
+
+---
+
+## 💡 CONSEJOS PRO
+
+✅ **Editar antes de llamar**
+   Actualiza celular/email antes de contactar
+
+✅ **Backup después de cambios grandes**
+   Si editas mucho, crea backup
+
+✅ **Sincronizar al empezar turno**
+   Por si otros usuarios hicieron cambios
+
+✅ **Comentario específico en gestión**
+   "Cliente interesado, pactó 3 cuotas"
+   → Mejor que solo "Contactado"
+
+✅ **WhatsApp directo desde Nexus**
+   Clic botón WhatsApp, abre chat
+
+✅ **Exportar periódicamente**
+   Descarga CSV para tu análisis personal
+
+---
+
+## 🔑 LOGINS
+
+### Nexus
+```
+Usuario: Admin
+Contraseña: 123
+```
+
+### Firebase (para consultas)
+```
+Ve a: https://console.firebase.google.com
+Proyecto: cobranzas-gk
+(Usa tu cuenta Google)
+```
+
+---
+
+## 📱 PLATAFORMAS SOPORTADAS
+
+✅ Windows (PowerShell)
+✅ Mac (Terminal)
+✅ Linux (Bash)
+✅ Navegadores: Chrome, Firefox, Edge, Safari
+
+---
+
+## 🚀 SIGUIENTE NIVEL (Opcional)
+
+Una vez que te sientas cómodo:
+
+1. **Leer documentación completa**
+   → GUÍA_SINCRONIZACIÓN_COMPLETA.md
+
+2. **Casos de uso avanzados**
+   → EJEMPLOS_PRÁCTICOS.md
+
+3. **Automatización**
+   → Scripts propios en import.js
+
+4. **Reportes**
+   → Exporta CSV y analiza en Excel
+
+---
+
+## ✅ VERIFICACIÓN RÁPIDA
+
+Luego de completar los 5 pasos:
+
+- [ ] firebase-service-account.json presente
+- [ ] npm install completado
+- [ ] clientes.xlsx en carpeta
+- [ ] npm start importó correctamente
+- [ ] Nexus abre en navegador
+- [ ] Login funciona
+- [ ] Búsqueda trae datos
+- [ ] Puedo editar información
+- [ ] Gestiones se guardan
+- [ ] Historial se actualiza
+
+**Si marcas todo ✓ → ESTÁS 100% LISTO 🎉**
+
+---
+
+## 📞 PROBLEMAS COMUNES
+
+| Problema | Solución |
+|----------|----------|
+| No abre Nexus | Abre index.html directamente |
+| Login no funciona | Usuario es **Admin**, contraseña **123** |
+| Búsqueda no trae datos | npm start debe importar primero |
+| Edición no guarda | F12 → Console para ver errores |
+| Muy lento | Recarga página o reinicia navegador |
+
+---
+
+## 🎓 DOCUMENTACIÓN
+
+Si necesitas profundizar:
+
+1. **Inicio**           → GUÍA_RÁPIDA.txt (esto)
+2. **Importación**      → README_IMPORTAR.md
+3. **Sincronización**   → GUÍA_SINCRONIZACIÓN_COMPLETA.md
+4. **Casos reales**     → EJEMPLOS_PRÁCTICOS.md
+5. **Validación**       → VERIFICACIÓN_CHECKLIST.txt
+6. **Sistema completo** → RESUMEN_SISTEMA_COMPLETO.md
+
+---
+
+## 🎉 ¡LISTO PARA COBRAR!
+
+Ya tienes todo funcionando. Ahora:
+
+1. **Usa Nexus** para gestionar tu cartera
+2. **Registra gestiones** con información completa
+3. **Edita datos** cuando cambien
+4. **Sincroniza** si trabajas en equipo
+5. **Haz backups** regularmente
+
+---
+
+**Tiempo estimado hasta el primer uso: 10 minutos ⏱️**
+
+**Versión:** 1.0.0  
+**Fecha:** 2026-02-19  
+**Estado:** ✅ OPERATIVO
+
+---
+
+¡A COBRAR! 💰
+
+Si surge alguna pregunta, revisa los documentos disponibles.
+Todo está documentado y explicado, paso a paso.
+
+¡Éxito! 🚀

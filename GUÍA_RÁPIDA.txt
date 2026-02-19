@@ -1,0 +1,182 @@
+╔════════════════════════════════════════════════════════════════╗
+║           NEXUS - GUÍA RÁPIDA DE IMPORTACIÓN                    ║
+║          Sistema de Gestión de Cobranza Operativa               ║
+╚════════════════════════════════════════════════════════════════╝
+
+📌 ARCHIVOS CREADOS/MODIFICADOS:
+
+✅ import.js
+   → Script para importar clientes desde Excel
+   → Automáticamente mapea todos los campos
+   → Manejo de errores y validación incluidos
+
+✅ package.json
+   → Configuración de dependencias Node.js
+   → Contiene firebase-admin y xlsx
+
+✅ index.html (ACTUALIZADO)
+   → Agregadas nuevas secciones colapsables
+   → Nuevos campos en la interfaz:
+     * Información de Contacto Adicional
+     * Información Laboral
+     * Información del Codeudor
+     * Detalles de la Deuda
+   → Función buscarCliente actualizada para llenar todos los campos
+
+✅ README_IMPORTAR.md
+   → Guía completa paso a paso
+   → Solución de problemas
+   → Mapeo de campos explicado
+
+✅ ejemplo-estructura-cliente.json
+   → Ejemplo de cómo se ve un cliente completo en Firebase
+   → Referencia para entender la estructura
+
+═══════════════════════════════════════════════════════════════════
+
+🚀 PASOS PARA IMPORTAR TUS CLIENTES:
+
+1️⃣  PREPARACIÓN INICIAL
+   ├─ Descarga Node.js (si no lo tienes): https://nodejs.org/
+   ├─ Prepara tu archivo Excel: clientes.xlsx
+   └─ Descarga firebase-service-account.json de Firebase Console
+
+2️⃣  CONFIGURACIÓN DE FIREBASE
+   ├─ Ve a: https://console.firebase.google.com
+   ├─ Proyecto: cobranzas-gk
+   ├─ Configuración del Proyecto > Cuentas de Servicio
+   ├─ Generar nueva clave privada (descarga el JSON)
+   └─ Guarda como: firebase-service-account.json
+
+3️⃣  INSTALACIÓN DE DEPENDENCIAS
+   ├─ Abre PowerShell en tu carpeta de proyecto
+   ├─ Ejecuta: npm install
+   └─ Espera a que terminen las descargas (~2-3 min)
+
+4️⃣  IMPORTACIÓN
+   ├─ Coloca tu clientes.xlsx en la carpeta de proyecto
+   ├─ Ejecuta: npm start
+   ├─ Verifica las filas que se importan
+   └─ Espera a que termine y veas el resumen
+
+5️⃣  VERIFICACIÓN EN NEXUS
+   ├─ Abre Nexus en el navegador
+   ├─ Login: Admin / 123
+   ├─ Busca un cliente por su número de documento
+   └─ Revisa que todos los campos se hayan cargado
+
+═══════════════════════════════════════════════════════════════════
+
+📊 CAMPOS QUE SE IMPORTAN:
+
+IDENTIFICACIÓN:
+  • Tipo de Documento
+  • Documento (ID único)
+
+DATOS PERSONALES:
+  • Nombre Completo
+  • Celular 1 y 2
+  • Teléfono Fijo
+  • Dirección
+  • Correo Electrónico
+
+INFORMACIÓN FINANCIERA:
+  • Capital Adeudado
+  • Intereses Corrientes
+  • Intereses de Mora
+  • Seguros
+  • Otros Gastos
+  • Subtotal (Deuda Total)
+  • Días en Mora
+  • Fecha de Inicio de Mora
+  • Franja de Mora
+
+INFORMACIÓN PROFESIONAL:
+  • NIT Empresa
+  • Empresa donde Trabaja
+
+INFORMACIÓN LEGAL:
+  • Tipo de Crédito
+  • No. Crédito
+  • Estado del Caso
+  • Entidad Origen
+  • Instancia de Cobranza
+  • Abogado Asignado
+
+GARANTÍAS:
+  • Tipo de Garantía
+  • Número de Placa/Matrícula
+  • Fondo de Garantías
+
+CODEUDOR:
+  • Cédula
+  • Nombre
+  • Dirección
+  • Celular
+  • Teléfono Fijo
+  • Correo Electrónico
+
+GESTIÓN:
+  • Observaciones
+  • Fecha de Asignación
+  • Fecha de Gestión
+  • Tipificación
+  • Tipo de Gestión
+
+═══════════════════════════════════════════════════════════════════
+
+⚠️  REQUISITOS IMPORTANTES:
+
+✓ Tu Excel DEBE tener una columna llamada "Documento"
+  (Esta será el identificador único de cada cliente)
+
+✓ Los encabezados deben coincidir exactamente con los
+  nombres en el mapeo de import.js
+
+✓ No dejes columnas vacías o con valores nulos que
+  puedan usarse como "Documento"
+
+═══════════════════════════════════════════════════════════════════
+
+❓ ¿ALGÚN PROBLEMA?
+
+Si el script no funciona:
+
+1. Verifica que Node.js esté instalado:
+   → Abre PowerShell
+   → Ejecuta: node --version
+   → Debe mostrar v16 o superior
+
+2. Verifica que firebase-service-account.json exista
+   → Debe estar en la misma carpeta que import.js
+
+3. Verifica que tu Excel tenga datos
+   → Mínimo una fila de datos + encabezados
+   → La columna "Documento" debe estar llena
+
+4. Revisa la consola para mensajes de error específicos
+
+5. Lee el archivo README_IMPORTAR.md para más detalles
+
+═══════════════════════════════════════════════════════════════════
+
+📞 EN NEXUS AHORA PODRÁS:
+
+✓ Buscar cualquier cliente por número de documento
+✓ Ver toda la información completa en secciones colapsables
+✓ Registrar gestiones de cobranza
+✓ Mantener historial de llamadas
+✓ Enviar WhatsApp directo desde la plataforma
+✓ Exportar datos para reportes
+
+═══════════════════════════════════════════════════════════════════
+
+¡SISTEMA LISTO PARA USAR! 🎉
+
+Próximos pasos:
+1. Descarga firebase-service-account.json
+2. Corre: npm install
+3. Corre: npm start
+4. ¡Importa tus clientes!
+
+═══════════════════════════════════════════════════════════════════
