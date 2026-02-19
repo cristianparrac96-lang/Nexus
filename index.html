@@ -139,7 +139,10 @@
             </div>
             <div class="search-box">
                 <i class="fa-solid fa-satellite-dish fa-beat"></i>
-                <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO..." onkeypress="if(event.key==='Enter') buscarCliente()">
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    <input type="text" id="main-search" placeholder="ESCANEAR DOCUMENTO..." onkeypress="if(event.key==='Enter') buscarCliente()">
+                    <div id="search-msg" style="color: var(--gk-cyan); font-size: 12px; margin-top: 5px; text-align: center;"></div>
+                </div>
             </div>
         </div>
 
@@ -233,10 +236,18 @@
         const db = getDatabase(app);
 
         // --- CONFIGURACIÓN DE DATOS (MAPPING) ---
-        const ARBOL = { /* ... (Contenido del Árbol de Tipificación) ... */ };
+        const ARBOL = {
+            "Contactado": ["Contacto sin acuerdo", "Posible acuerdo", "Volver a llamar", "Renuente", "Reclamación"],
+            "Sin Contacto": ["No Contesta", "Teléfono fuera de servicio", "Teléfono ocupado", "Ilocalizado"],
+            "Contacto Indirecto": ["Mensaje de Voz", "Mensaje Tercero", "Fallecido", "Errado", "No Vive Allí"],
+            "Gestion Realizada": ["Envío SMS", "Envío E-Mail", "Envío WhatsApp", "Visita a Cliente", "Estado de Cuenta"],
+            "Acuerdo de Pago": ["Intencion de Pago", "Acuerdo de Pago", "Recordatorio de pago", "Ya Pago", "Abono"],
+            "Paz y Salvo": ["Solicitud de Paz y Salvo", "Estado de Paz y Salvo"]
+        };
         
         let currentAgrupador = "";
         let currentClase = "";
+        const moneda = new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', minimumFractionDigits:0});
 
         // --- LÓGICA DE LOGIN ---
         window.validarLogin = function() {
